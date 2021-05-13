@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:logger/logger.dart';
 import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/app/app.logger.dart';
 import 'package:my_bot/constants/styles.dart';
@@ -12,7 +13,7 @@ import 'package:stacked/stacked.dart';
 class HomeViewModel extends BaseViewModel {
   List<Story> _stories = [];
   List<Story> get stories => _stories;
-  var log = getLogger('HomeView');
+  var log = getLogger('HomeView', printCallstack: true);
 
   late SpinKitDoubleBounce loader;
 
@@ -29,13 +30,18 @@ class HomeViewModel extends BaseViewModel {
 
   void _populateTopStories() async {
     log.d('fetching stories');
-    final responses = await locator<APIService>().getTopStories();
-    final stories = responses.map((response) {
-      final json = jsonDecode(response.body);
-      return Story.fromJSON(json);
-    }).toList();
-    _stories = stories;
-    notifyListeners();
+    try {
+      final responses = await locator<APIService>().getTopStories();
+      final stories = responses.map((response) {
+        final json = jsonDecode(response.body);
+        return Story.fromJSON(json);
+      }).toList();
+      _stories = stories;
+      notifyListeners();
+    } catch (e, s) {
+      log.e("Error in fetching stories", e, s);
+      // log.e(s.toString());
+    }
   }
 
   openStory(String url) async {
