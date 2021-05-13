@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:logger/logger.dart';
 import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/app/app.logger.dart';
 import 'package:my_bot/constants/styles.dart';
