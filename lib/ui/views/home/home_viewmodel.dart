@@ -39,7 +39,6 @@ class HomeViewModel extends BaseViewModel {
       notifyListeners();
     } catch (e, s) {
       log.e("Error in fetching stories", e, s);
-      // log.e(s.toString());
     }
   }
 

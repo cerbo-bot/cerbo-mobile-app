@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_bot/constants/styles.dart';
+import 'package:my_bot/ui/widgets/animated_sync.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView() : super();
+  AnimationSyncButtonController? _animationSyncButtonController;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,11 @@ class HomeView extends StatelessWidget {
             color: TextColorDark,
           ),
           actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.cached_rounded,
-                  color: TextColorDark,
-                ),
-                onPressed: () => model.doSomething())
+            AnimatedSyncButton(onPressedButton: () {
+              model.doSomething();
+            }, animationCallback: (animationCallback) {
+              _animationSyncButtonController = animationCallback;
+            })
           ],
         ),
         body: model.stories.length == 0
@@ -38,6 +38,9 @@ class HomeView extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: model.stories.length,
                   itemBuilder: (_, index) {
+                    try {
+                      _animationSyncButtonController?.stopAnimation();
+                    } catch (exception) {}
                     return ListTile(
                       onTap: () {
                         model.openStory(model.stories[index].url);
