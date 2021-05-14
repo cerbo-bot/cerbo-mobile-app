@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/ui/widgets/animated_sync.dart';
+import 'package:my_bot/ui/widgets/animated_sync_button.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
