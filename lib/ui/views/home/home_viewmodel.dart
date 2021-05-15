@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/app/app.logger.dart';
@@ -15,6 +16,8 @@ class HomeViewModel extends BaseViewModel {
   var log = getLogger('HomeView', printCallstack: true);
 
   late SpinKitDoubleBounce loader;
+  Map<String, PreviewData> _previewData = {};
+  get previewData => _previewData;
 
   void doSomething() {
     loader = SpinKitDoubleBounce(
@@ -47,5 +50,13 @@ class HomeViewModel extends BaseViewModel {
     try {
       await locator<CommonServices>().launchUrl(url);
     } catch (e) {}
+  }
+
+  void savePreviewData(PreviewData data, index) {
+    _previewData = {
+      ..._previewData,
+      _stories[index].url: data,
+    };
+    notifyListeners();
   }
 }
