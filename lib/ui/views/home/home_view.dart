@@ -11,7 +11,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      onModelReady: (model) => model.doSomething(),
+      onModelReady: (model) => model.getStoriesAndCache(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
                   color: TextColorDark,
                 ),
                 onPressed: () {
-                  model.doSomething();
+                  model.getStoriesAndCache();
                   _animationSyncButtonController?.rotate();
                 },
               ),
@@ -45,23 +45,31 @@ class HomeView extends StatelessWidget {
             ? model.loader
             : Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemCount: model.stories.length,
-                  itemBuilder: (_, index) {
-                    try {
-                      _animationSyncButtonController?.stop();
-                    } catch (exception) {}
-                    return ListTile(
-                      onTap: () {
-                        model.openStory(model.stories[index].url);
-                      },
-                      title: Text(model.stories[index].title,
-                          style: h4.copyWith(color: TextColorDark)),
-                      subtitle: Text(model.stories[index].by),
-                    );
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo.metrics.pixels ==
+                        scrollInfo.metrics.maxScrollExtent) {
+                      model.populateSomeStories();
+                    }
+                    return true;
                   },
-                ),
-              ),
+                  child: ListView.builder(
+                    itemCount: model.stories.length,
+                    itemBuilder: (_, index) {
+                      try {
+                        _animationSyncButtonController?.stop();
+                      } catch (exception) {}
+                      return ListTile(
+                        onTap: () {
+                          model.openStory(model.stories[index].url);
+                        },
+                        title: Text(model.stories[index].title,
+                            style: h4.copyWith(color: TextColorDark)),
+                        subtitle: Text(model.stories[index].by),
+                      );
+                    },
+                  ),
+                )),
       ),
       viewModelBuilder: () => HomeViewModel(),
     );
