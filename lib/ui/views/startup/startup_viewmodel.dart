@@ -11,4 +11,8 @@ class StartUpViewModel extends BaseViewModel {
   void doSomething() {
     _nagivationService.navigateTo(Routes.homeView);
   }
+
+  openChatPage() {
+    _nagivationService.navigateTo(Routes.chatView);
+  }
 }

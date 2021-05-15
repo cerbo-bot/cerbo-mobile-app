@@ -10,15 +10,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../ui/views/chat/chat_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/startup/startup_view.dart';
 
 class Routes {
   static const String startUpView = '/';
   static const String homeView = '/home-view';
+  static const String chatView = '/chat-view';
   static const all = <String>{
     startUpView,
     homeView,
+    chatView,
   };
 }
 
@@ -28,6 +31,7 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.startUpView, page: StartUpView),
     RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.chatView, page: ChatView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -41,6 +45,12 @@ class StackedRouter extends RouterBase {
     HomeView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => HomeView(),
+        settings: data,
+      );
+    },
+    ChatView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => ChatView(),
         settings: data,
       );
     },

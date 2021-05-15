@@ -25,6 +25,14 @@ class StartUpView extends StatelessWidget {
                 onPressed: model.doSomething)
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: SecondaryColor,
+          child: Icon(
+            Icons.chat_bubble_outline,
+            color: PrimaryColor,
+          ),
+          onPressed: model.openChatPage,
+        ),
         backgroundColor: PrimaryColor,
         body: Padding(
           padding: const EdgeInsets.only(top: 80),

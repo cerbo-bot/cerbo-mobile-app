@@ -9,3 +9,5 @@ var h1 = GoogleFonts.spaceMono(fontSize: 48, color: TextColorLight);
 var h2 = GoogleFonts.spaceMono(fontSize: 36, color: TextColorLight);
 var h3 = GoogleFonts.spaceMono(fontSize: 28, color: TextColorLight);
 var h4 = GoogleFonts.spaceMono(fontSize: 20, color: TextColorLight);
+var body = GoogleFonts.spaceMono(fontSize: 16, color: TextColorLight);
+var caption = GoogleFonts.spaceMono(fontSize: 14, color: TextColorLight);
