@@ -1,20 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:my_bot/constants/styles.dart';
-
-class AnimatedSyncButton extends StatefulWidget {
-  final Function() onPressedButton;
+class RotatedWidget extends StatefulWidget {
   final Function(AnimationSyncButtonController) animationCallback;
-  AnimatedSyncButton(
-      {required this.onPressedButton, required this.animationCallback});
+  final Widget widgetToAnimate;
+  RotatedWidget(
+      {required this.animationCallback, required this.widgetToAnimate});
   @override
-  _AnimatedSyncButtonState createState() => _AnimatedSyncButtonState();
+  _RotatedWidgetState createState() => _RotatedWidgetState();
 }
 
-class _AnimatedSyncButtonState extends State<AnimatedSyncButton>
+class _RotatedWidgetState extends State<RotatedWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   int _angleOfRotation = 0;
@@ -32,12 +28,12 @@ class _AnimatedSyncButtonState extends State<AnimatedSyncButton>
 
     controller.addListener(() {
       setState(() {
-        _angleOfRotation = controller.value.toInt();
+        _angleOfRotation = 360 - controller.value.toInt();
       });
     });
 
     AnimationSyncButtonController animationSyncButtonController =
-        AnimationSyncButtonController(startAnimation, stopAnimation);
+        AnimationSyncButtonController(rotate, stop);
 
     // lifting the controllers for the widget to host activity
     widget.animationCallback(animationSyncButtonController);
@@ -46,21 +42,12 @@ class _AnimatedSyncButtonState extends State<AnimatedSyncButton>
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(
-        angle: _angleOfRotation * math.pi / 360,
-        child: IconButton(
-          icon: Icon(
-            Icons.cached_rounded,
-            color: TextColorDark,
-          ),
-          onPressed: () {
-            setState(() {
-              startAnimation(widget.onPressedButton);
-            });
-          },
-        ));
+      angle: _angleOfRotation * math.pi / 360,
+      child: widget.widgetToAnimate,
+    );
   }
 
-  bool stopAnimation() {
+  bool stop() {
     if (_isAnimating) {
       _isAnimating = false;
       setState(() {
@@ -73,10 +60,9 @@ class _AnimatedSyncButtonState extends State<AnimatedSyncButton>
     return false;
   }
 
-  bool startAnimation(Function onPressed) {
+  bool rotate() {
     if (!_isAnimating) {
       _isAnimating = true;
-      onPressed();
       setState(() {
         controller.repeat(reverse: false);
       });
@@ -93,7 +79,7 @@ class _AnimatedSyncButtonState extends State<AnimatedSyncButton>
 }
 
 class AnimationSyncButtonController {
-  Function startAnimation;
-  Function stopAnimation;
-  AnimationSyncButtonController(this.startAnimation, this.stopAnimation);
+  Function rotate;
+  Function stop;
+  AnimationSyncButtonController(this.rotate, this.stop);
 }
