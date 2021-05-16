@@ -14,10 +14,10 @@ class ChatView extends StatelessWidget {
       onModelReady: (model) => model.doSomething(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: SecondaryColor,
           elevation: 0,
           title: Text(
-            "Chat",
+            "Ask Cerbo",
             style: h3.copyWith(color: TextColorDark),
           ),
           leading: BackButton(

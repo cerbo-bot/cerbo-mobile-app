@@ -19,10 +19,10 @@ class StartUpView extends StatelessWidget {
           actions: [
             IconButton(
                 icon: Icon(
-                  CupertinoIcons.doc_text_fill,
+                  CupertinoIcons.info_circle,
                 ),
                 iconSize: 36,
-                onPressed: model.doSomething)
+                onPressed: model.openCerboWebsite)
           ],
         ),
         floatingActionButton: FloatingActionButton(
