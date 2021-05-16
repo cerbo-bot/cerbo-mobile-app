@@ -3,7 +3,7 @@
 An attempt to create a community driven general purpose Bot for developers.
 - Get latest updates on Tech
 - Answer common queries 
-- Lookup code snipets 
+- Lookup code snippets 
 - Assist in debugging (guess I'm getting delusion)
 
 <table>
