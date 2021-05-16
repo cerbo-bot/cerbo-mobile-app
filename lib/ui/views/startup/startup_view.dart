@@ -19,11 +19,19 @@ class StartUpView extends StatelessWidget {
           actions: [
             IconButton(
                 icon: Icon(
-                  CupertinoIcons.doc_text_fill,
+                  CupertinoIcons.info_circle,
                 ),
                 iconSize: 36,
-                onPressed: model.doSomething)
+                onPressed: model.openCerboWebsite)
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: SecondaryColor,
+          child: Icon(
+            Icons.chat_bubble_outline,
+            color: PrimaryColor,
+          ),
+          onPressed: model.openChatPage,
         ),
         backgroundColor: PrimaryColor,
         body: Padding(

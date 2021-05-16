@@ -32,10 +32,11 @@ dependencies:
   stacked: 
   stacked_services: ^0.8.5
   http: ^0.13.3
-  flutter_spinkit: "^5.0.0"
+  flutter_spinkit: ^5.0.0
   url_launcher: ^6.0.3
   logger: ^1.0.0
-  flutter_link_previewer: ^2.0.1
+  flutter_chat_ui: ^1.0.2
+  flutter_config: ^2.0.0
 
 
 dev_dependencies:

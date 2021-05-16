@@ -1,6 +1,9 @@
+import 'package:flutter_config/flutter_config.dart';
+
 class UrlHelper {
+  static String BASE_URL = FlutterConfig.get('BASE_URL_DEVELOPMENT');
   static String urlForTopStories() {
-    return "https://cerbo.glitch.me/v1/news";
+    return '$BASE_URL/news';
   }
 
   static String urlForCommentById(int commentId) {
