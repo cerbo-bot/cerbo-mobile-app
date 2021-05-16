@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/constants/styles.dart';
 import 'package:my_bot/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
@@ -11,7 +12,8 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      onModelReady: (model) => model.getStoriesAndCache(),
+      disposeViewModel: false,
+      onModelReady: (model) => model.getInitalStories(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -71,7 +73,7 @@ class HomeView extends StatelessWidget {
                   ),
                 )),
       ),
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => locator<HomeViewModel>(),
     );
   }
 }

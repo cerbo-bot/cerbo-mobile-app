@@ -14,9 +14,11 @@ class HomeViewModel extends BaseViewModel {
   List<Story> _stories = [];
   List<dynamic> _storyUrls = [];
   List<Story> get stories => _stories;
+  int delayTimeToFetchNewStories = 900;
   int pageSize = 10;
   int pageNo = 1;
   var log = getLogger('HomeView', printCallstack: true);
+  DateTime? fetchTime;
 
   late SpinKitDoubleBounce loader;
 
@@ -27,12 +29,28 @@ class HomeViewModel extends BaseViewModel {
     );
   }
 
+  bool isFetchingNewStoriesNeeded() {
+    DateTime currentTime = DateTime.now();
+    if (fetchTime != null) {
+      if (currentTime.difference(fetchTime!).inSeconds >
+          delayTimeToFetchNewStories) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void getInitalStories() {
+    if (_stories.length == 0 || isFetchingNewStoriesNeeded()) {
+      getStoriesAndCache();
+    }
+  }
+
   void getStoriesAndCache() async {
-    log.d("getting stories");
+    fetchTime = DateTime.now();
     showLoading();
     try {
       _storyUrls = await locator<APIService>().getTopStories();
-      log.d(_storyUrls);
       fetchAndUpdateStories();
     } catch (e, s) {
       log.e("Error in fetching stories", e, s);
@@ -40,9 +58,6 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void fetchAndUpdateStories() {
-    // pageNo
-    // pageSize
-
     _storyUrls
         .sublist(pageSize * (pageNo - 1), (pageSize * (pageNo)))
         .forEach((element) async {
@@ -64,8 +79,10 @@ class HomeViewModel extends BaseViewModel {
   }
 
   getNext() {
-    pageNo++;
-    fetchAndUpdateStories();
+    if ((pageSize * (pageNo + 1)) <= _storyUrls.length) {
+      pageNo++;
+      fetchAndUpdateStories();
+    }
   }
 
   openStory(String url) async {
