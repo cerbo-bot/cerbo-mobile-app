@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/app/app.logger.dart';
@@ -7,6 +8,7 @@ import 'package:my_bot/constants/styles.dart';
 import 'package:my_bot/models/story.dart';
 import 'package:my_bot/services/api.dart';
 import 'package:my_bot/services/common.dart';
+import 'package:my_bot/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeViewModel extends BaseViewModel {
@@ -23,6 +25,9 @@ class HomeViewModel extends BaseViewModel {
   String bottomBarText = "Loading more stories";
 
   late SpinKitDoubleBounce loader;
+  Map<String, PreviewData> _previewData = {};
+  get previewData => _previewData;
+  AnimationSyncButtonController? animationSyncButtonController;
 
   void showLoading() {
     loader = SpinKitDoubleBounce(
@@ -98,5 +103,13 @@ class HomeViewModel extends BaseViewModel {
     try {
       await locator<CommonServices>().launchUrl(url);
     } catch (e) {}
+  }
+
+  void savePreviewData(PreviewData data, index) {
+    _previewData = {
+      ..._previewData,
+      _stories[index].url: data,
+    };
+    notifyListeners();
   }
 }

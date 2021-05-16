@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_bot/app/app.locator.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:my_bot/constants/styles.dart';
 import 'package:my_bot/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
@@ -7,8 +7,6 @@ import 'package:stacked/stacked.dart';
 import 'home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
-  AnimationSyncButtonController? _animationSyncButtonController;
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
@@ -33,11 +31,11 @@ class HomeView extends StatelessWidget {
                 ),
                 onPressed: () {
                   model.getStoriesAndCache();
-                  _animationSyncButtonController?.rotate();
+                  model.animationSyncButtonController?.rotate();
                 },
               ),
               animationCallback: (animationCallback) {
-                _animationSyncButtonController = animationCallback;
+                model.animationSyncButtonController = animationCallback;
               },
             )
           ],
@@ -54,21 +52,35 @@ class HomeView extends StatelessWidget {
                     }
                     return true;
                   },
-                  child: ListView.builder(
+                  child: ListView.separated(
                     itemCount: model.stories.length,
                     itemBuilder: (_, index) {
-                      try {
-                        _animationSyncButtonController?.stop();
-                      } catch (exception) {}
                       return ListTile(
-                        onTap: () {
-                          model.openStory(model.stories[index].url);
-                        },
-                        title: Text(model.stories[index].title,
-                            style: h4.copyWith(color: TextColorDark)),
-                        subtitle: Text(model.stories[index].by),
+                        onTap: () => model.openStory(model.stories[index].url),
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(model.stories[index].title,
+                              style: h4.copyWith(color: TextColorDark)),
+                        ),
+                        subtitle: LinkPreview(
+                          enableAnimation: true,
+                          onPreviewDataFetched: (data) {
+                            model.savePreviewData(data, index);
+                          },
+                          previewData: model.previewData[model.stories[index]
+                              .url], // Pass the preview data from the state
+                          text: model.stories[index].url,
+                          textStyle: TextStyle(fontSize: 0, height: 0),
+                          metadataTitleStyle: TextStyle(fontSize: 0, height: 0),
+                          padding: const EdgeInsets.all(2),
+                          width: MediaQuery.of(context).size.width,
+                        ),
                       );
                     },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      color: TextColorDark,
+                    ),
                   ),
                 ),
               ),
