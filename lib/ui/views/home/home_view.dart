@@ -49,7 +49,7 @@ class HomeView extends StatelessWidget {
                   onNotification: (ScrollNotification scrollInfo) {
                     if (scrollInfo.metrics.pixels ==
                         scrollInfo.metrics.maxScrollExtent) {
-                      model.populateSomeStories();
+                      model.getNext();
                     }
                     return true;
                   },
