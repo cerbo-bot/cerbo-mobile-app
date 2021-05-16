@@ -18,17 +18,15 @@ class APIService {
       return Advice(slip: Slip(slipId: 0, advice: "No Data."));
   }
 
-  Future<Response> _getStory(String storyUrl) {
-    return http.get(Uri.parse(storyUrl));
+  Future<Response> getStory(String storyUrl) async {
+    return await http.get(Uri.parse(storyUrl));
   }
 
-  Future<List<Response>> getTopStories() async {
+  Future<List<dynamic>> getTopStories() async {
     final response = await http.get(Uri.parse((UrlHelper.urlForTopStories())));
     if (response.statusCode == 200) {
-      Iterable storyUrls = jsonDecode(response.body)["message"];
-      return Future.wait(storyUrls.take(20).map((storyUrl) {
-        return _getStory(storyUrl);
-      }));
+      List storyUrls = jsonDecode(response.body)["message"];
+      return storyUrls;
     } else {
       throw Exception("Unable to fetch data!");
     }

@@ -223,6 +223,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+<<<<<<< HEAD
   flutter_chat_ui:
     dependency: "direct main"
     description:
@@ -232,11 +233,19 @@ packages:
     version: "1.0.2"
   flutter_link_previewer:
     dependency: transitive
+=======
+  flutter_link_previewer:
+    dependency: "direct main"
+>>>>>>> dev
     description:
       name: flutter_link_previewer
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.0.6"
+=======
+    version: "2.0.1"
+>>>>>>> dev
   flutter_linkify:
     dependency: transitive
     description:
