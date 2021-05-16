@@ -19,6 +19,8 @@ class HomeViewModel extends BaseViewModel {
   int pageNo = 1;
   var log = getLogger('HomeView', printCallstack: true);
   DateTime? fetchTime;
+  bool showBottomBarText = false;
+  String bottomBarText = "Loading more stories";
 
   late SpinKitDoubleBounce loader;
 
@@ -75,14 +77,21 @@ class HomeViewModel extends BaseViewModel {
 
   void populateSomeStories() {
     _stories = List.from(_stories_cache);
+    showBottomBarText = false;
     notifyListeners();
   }
 
   getNext() {
     if ((pageSize * (pageNo + 1)) <= _storyUrls.length) {
+      bottomBarText = "Loading more stories ...";
+      showBottomBarText = true;
       pageNo++;
       fetchAndUpdateStories();
+    } else {
+      bottomBarText = "No more stories";
+      showBottomBarText = true;
     }
+    notifyListeners();
   }
 
   openStory(String url) async {
