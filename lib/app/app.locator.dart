@@ -8,6 +8,7 @@
 
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../services/api.dart';
@@ -21,7 +22,8 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
       environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
-  locator.registerLazySingleton(() => NavigationService());
+  locator.registerSingleton(NavigationService());
   locator.registerLazySingleton(() => APIService());
   locator.registerLazySingleton(() => CommonServices());
+  locator.registerLazySingleton(() => FirebaseAuthenticationService());
 }

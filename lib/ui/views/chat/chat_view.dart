@@ -6,7 +6,8 @@ import 'package:stacked/stacked.dart';
 import 'chat_viewmodel.dart';
 
 class ChatView extends StatelessWidget {
-  const ChatView() : super();
+  final String roomId;
+  const ChatView({required this.roomId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,9 @@ class ChatView extends StatelessWidget {
             color: TextColorDark,
           ),
         ),
-        body: ChatWidget(),
+        body: ChatWidget(
+          roomId: roomId,
+        ),
       ),
       viewModelBuilder: () => ChatViewModel(),
     );

@@ -4,7 +4,8 @@ import 'package:my_bot/constants/styles.dart';
 
 class BotHomeWidget extends StatelessWidget {
   final VoidCallback executeOperation;
-  BotHomeWidget({required this.executeOperation});
+  final String userName;
+  BotHomeWidget({required this.executeOperation, this.userName = ""});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,7 +20,7 @@ class BotHomeWidget extends StatelessWidget {
           )),
         ),
         Text(
-          "Hi!\nI'm Cerbo.",
+          "Hi${userName.split(' ')[0]}!\nI'm Cerbo.",
           style: h2,
           textAlign: TextAlign.center,
         ),
