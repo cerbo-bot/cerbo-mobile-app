@@ -15,13 +15,19 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          leading: IconButton(
+              icon: Icon(
+                CupertinoIcons.info_circle,
+              ),
+              iconSize: 36,
+              onPressed: model.openCerboWebsite),
           actions: [
             IconButton(
                 icon: Icon(
-                  CupertinoIcons.info_circle,
+                  Icons.logout,
                 ),
                 iconSize: 36,
-                onPressed: model.openCerboWebsite)
+                onPressed: model.logout)
           ],
         ),
         floatingActionButton: FloatingActionButton(

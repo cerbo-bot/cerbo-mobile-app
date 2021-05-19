@@ -9,13 +9,17 @@ import 'package:my_bot/models/advice.dart';
 class APIService {
   final log = getLogger('APIService');
 
-  Future<Advice> randomAdvice() async {
+  Future randomAdvice(String token) async {
+    Map msg = {'message': 'hi'};
+    String body = jsonEncode(msg);
     var response =
-        await http.get(Uri.parse('https://api.adviceslip.com/advice'));
-    if (response.statusCode == 200)
-      return Advice.fromJson(jsonDecode(response.body));
-    else
-      return Advice(slip: Slip(slipId: 0, advice: "No Data."));
+        await http.post(Uri.parse('https://event-hub-efa45xwu7a-uc.a.run.app'),
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer $token',
+            },
+            body: body);
+    return;
   }
 
   Future<Response> getStory(String storyUrl) async {

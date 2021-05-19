@@ -5,6 +5,7 @@ import 'package:my_bot/app/app.logger.dart';
 import 'package:my_bot/app/app.router.dart';
 import 'package:my_bot/services/common.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
@@ -38,5 +39,10 @@ class HomeViewModel extends BaseViewModel {
         }
       }
     });
+  }
+
+  void logout() async {
+    await locator<FirebaseAuthenticationService>().logout();
+    _nagivationService.clearStackAndShow(Routes.loginView);
   }
 }

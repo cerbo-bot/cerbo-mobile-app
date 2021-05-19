@@ -7,8 +7,11 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
+import 'package:my_bot/app/app.locator.dart';
 import 'package:my_bot/constants/styles.dart';
+import 'package:my_bot/services/api.dart';
 import 'package:open_file/open_file.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -82,6 +85,15 @@ class _ChatPageState extends State<ChatPage> {
       message,
       widget.roomId,
     );
+    if (message.text.toLowerCase().contains('advice')) {
+      _callRandomAdvice();
+    }
+  }
+
+  void _callRandomAdvice() async {
+    final _firebaseAuthToken =
+        await locator<FirebaseAuthenticationService>().userToken;
+    await locator<APIService>().randomAdvice(_firebaseAuthToken!);
   }
 
   void _openFile(types.Message message) async {
