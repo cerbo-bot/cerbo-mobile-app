@@ -15,7 +15,7 @@ class UrlHelper {
     try {
       return FlutterConfig.get('BASE_URL_DEVELOPMENT');
     } catch (e) {
-      return 'https://cerbo.platinos.in:4000/v1';
+      return 'https://cerbo.platinos.in/v1';
     }
   }
 }
