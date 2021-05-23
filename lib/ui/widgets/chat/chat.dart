@@ -85,15 +85,6 @@ class _ChatPageState extends State<ChatPage> {
       message,
       widget.roomId,
     );
-    if (message.text.toLowerCase().contains('advice')) {
-      _callRandomAdvice();
-    }
-  }
-
-  void _callRandomAdvice() async {
-    final _firebaseAuthToken =
-        await locator<FirebaseAuthenticationService>().userToken;
-    await locator<APIService>().randomAdvice(_firebaseAuthToken!);
   }
 
   void _openFile(types.Message message) async {
