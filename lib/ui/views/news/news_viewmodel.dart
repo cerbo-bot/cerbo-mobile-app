@@ -2,14 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_bot/app/app.locator.dart';
-import 'package:my_bot/app/app.logger.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/models/story.dart';
-import 'package:my_bot/services/api.dart';
-import 'package:my_bot/services/common.dart';
-import 'package:my_bot/ui/widgets/rotated_widget.dart';
+import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/models/story.dart';
+import 'package:cerbo/services/api.dart';
+import 'package:cerbo/services/common.dart';
+import 'package:cerbo/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 
 class NewsViewModel extends BaseViewModel {
   List<Story> _stories_cache = [];
@@ -28,6 +29,7 @@ class NewsViewModel extends BaseViewModel {
   Map<String, PreviewData> _previewData = {};
   get previewData => _previewData;
   AnimationSyncButtonController? animationSyncButtonController;
+  final _firebaseAuthService = locator<FirebaseAuthenticationService>();
 
   void showLoading() {
     loader = SpinKitDoubleBounce(
@@ -57,7 +59,8 @@ class NewsViewModel extends BaseViewModel {
     fetchTime = DateTime.now();
     showLoading();
     try {
-      _storyUrls = await locator<APIService>().getTopStories();
+      var token = await _firebaseAuthService.userToken;
+      _storyUrls = await locator<APIService>().getTopStories(token);
       fetchAndUpdateStories();
     } catch (e, s) {
       log.e("Error in fetching stories", e, s);

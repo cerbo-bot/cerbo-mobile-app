@@ -7,9 +7,9 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
-import 'package:my_bot/app/app.locator.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/services/api.dart';
+import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/services/api.dart';
 import 'package:open_file/open_file.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 

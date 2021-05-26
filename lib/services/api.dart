@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_bot/app/app.logger.dart';
-import 'package:my_bot/constants/url_helper.dart';
-import 'package:my_bot/models/advice.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/constants/url_helper.dart';
+import 'package:cerbo/models/advice.dart';
 
 class APIService {
   final log = getLogger('APIService');
@@ -13,13 +13,21 @@ class APIService {
     return await http.get(Uri.parse(storyUrl));
   }
 
-  Future<List<dynamic>> getTopStories() async {
-    final response = await http.get(Uri.parse((UrlHelper.urlForTopStories())));
+  Future<List<dynamic>> getTopStories(token) async {
+    var url = Uri.parse((UrlHelper.urlForTopStories()));
+    log.d(url.toString());
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
     log.d(response.statusCode);
     if (response.statusCode == 200) {
       List storyUrls = jsonDecode(response.body)["message"];
       return storyUrls;
     } else {
+      log.e(response.statusCode);
       throw Exception("Unable to fetch data!");
     }
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_bot/constants/styles.dart';
+import 'package:cerbo/constants/styles.dart';
 
 class BotHomeWidget extends StatelessWidget {
   final VoidCallback executeOperation;

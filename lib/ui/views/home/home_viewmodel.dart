@@ -1,9 +1,9 @@
 import 'package:flutter_chat_types/src/room.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:my_bot/app/app.locator.dart';
-import 'package:my_bot/app/app.logger.dart';
-import 'package:my_bot/app/app.router.dart';
-import 'package:my_bot/services/common.dart';
+import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/app/app.router.dart';
+import 'package:cerbo/services/common.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';

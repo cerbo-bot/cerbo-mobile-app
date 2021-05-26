@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_bot/ui/widgets/chat/chat.dart';
+import 'package:cerbo/ui/widgets/chat/chat.dart';
 
 class ChatWidget extends StatelessWidget {
   final String roomId;

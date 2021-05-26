@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/ui/widgets/bothome.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/ui/widgets/bothome.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';

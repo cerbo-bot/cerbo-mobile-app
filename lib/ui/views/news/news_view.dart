@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/ui/widgets/rotated_widget.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
 
 import 'news_viewmodel.dart';
