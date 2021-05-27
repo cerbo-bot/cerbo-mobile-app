@@ -12,11 +12,10 @@ class UrlHelper {
   }
 
   static String _getBaseURL() {
-    try {
-      return FlutterConfig.get('BASE_URL_DEVELOPMENT');
-    } catch (e) {
-      return 'http://localhost:4000/v1';
-      // return 'https://cerbo.platinos.in/v1';
-    }
+    // try {
+    //   return FlutterConfig.get('BASE_URL_DEVELOPMENT');
+    // } catch (e) {
+    return 'https://cerbo.platinos.in/v1';
+    // }
   }
 }

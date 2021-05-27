@@ -11,12 +11,7 @@ import 'app/app.router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   await Firebase.initializeApp();
-  try {
-    // Required by FlutterConfig
-    await FlutterConfig.loadEnvVariables();
-  } catch (e) {
-    print(e.toString());
-  }
+
   Logger.level = Level.debug;
   setupLocator();
   runApp(MyApp());

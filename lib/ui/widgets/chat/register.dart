@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:faker/faker.dart';
+// import 'package:faker/faker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
@@ -23,16 +23,16 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    final faker = Faker();
-    _firstName = faker.person.firstName();
-    _lastName = faker.person.lastName();
-    _email =
-        '${_firstName!.toLowerCase()}.${_lastName!.toLowerCase()}@${faker.internet.domainName()}';
-    _focusNode = FocusNode();
-    _passwordController = TextEditingController(text: 'Qawsed1-');
-    _usernameController = TextEditingController(
-      text: _email,
-    );
+    // final faker = Faker();
+    // _firstName = faker.person.firstName();
+    // _lastName = faker.person.lastName();
+    // _email =
+    //     '${_firstName!.toLowerCase()}.${_lastName!.toLowerCase()}@${faker.internet.domainName()}';
+    // _focusNode = FocusNode();
+    // _passwordController = TextEditingController(text: 'Qawsed1-');
+    // _usernameController = TextEditingController(
+    //   text: _email,
+    // );
   }
 
   @override

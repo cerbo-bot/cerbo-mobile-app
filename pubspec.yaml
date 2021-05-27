@@ -38,10 +38,9 @@ dependencies:
   flutter_chat_ui: ^1.0.2
   flutter_config: ^2.0.0
   firebase_auth: ^1.1.0
-  firebase_core: ^1.1.1
+  firebase_core: ^1.2.0
   firebase_storage: ^8.0.3
   flutter_firebase_chat_core: ^1.0.2
-  faker: ^2.0.0
   image_picker: ^0.7.5
   file_picker: ^3.0.1
   mime: ^1.0.0
@@ -55,6 +54,12 @@ dev_dependencies:
   stacked_generator:   
   flutter_test:
     sdk: flutter
+#   flutter_launcher_icons: "^0.9.0"
+
+# flutter_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "images/bot.png"
 
 
 
