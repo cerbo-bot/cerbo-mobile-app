@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/constants/url_helper.dart';
-import 'package:cerbo/models/advice.dart';
 
 class APIService {
   final log = getLogger('APIService');
