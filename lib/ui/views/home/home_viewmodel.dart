@@ -10,9 +10,12 @@ import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
+  final _firebaseAuthService = locator<FirebaseAuthenticationService>();
+
   final log = getLogger('HomeView');
 
   String roomId = '';
+  String userName = '';
 
   void doSomething() {
     _nagivationService.navigateTo(Routes.newsView);
@@ -29,6 +32,7 @@ class HomeViewModel extends BaseViewModel {
 
   initHome() async {
     FirebaseChatCore.instance.rooms().listen(_setRoomId);
+    userName = _firebaseAuthService.currentUser!.displayName!;
   }
 
   void _setRoomId(List<Room> rooms) {

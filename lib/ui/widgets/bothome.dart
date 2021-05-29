@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/services/string_helper.dart';
 
 class BotHomeWidget extends StatelessWidget {
   final VoidCallback executeOperation;
@@ -20,7 +21,7 @@ class BotHomeWidget extends StatelessWidget {
           )),
         ),
         Text(
-          "Hi${userName.split(' ')[0]}!\nI'm Cerbo.",
+          "Hi ${userName.split(' ')[0].capitalize()}\nI'm Cerbo.",
           style: h2,
           textAlign: TextAlign.center,
         ),
