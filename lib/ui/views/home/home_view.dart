@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
         ),
         backgroundColor: PrimaryColor,
         body: Padding(
-          padding: const EdgeInsets.only(top: 80),
+          padding: const EdgeInsets.only(top: 20),
           child: BotHomeWidget(
             executeOperation: model.doSomething,
             userName: model.userName,
