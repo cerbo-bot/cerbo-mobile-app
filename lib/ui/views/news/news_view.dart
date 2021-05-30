@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/ui/widgets/rotated_widget.dart';
+import 'package:share/share.dart';
 import 'package:stacked/stacked.dart';
 
 import 'news_viewmodel.dart';
@@ -57,6 +58,10 @@ class NewsView extends StatelessWidget {
                     itemBuilder: (_, index) {
                       return ListTile(
                         onTap: () => model.openStory(model.stories[index].url),
+                        onLongPress: () => {
+                          Share.share(model.stories[index].url.toString(),
+                              subject: model.stories[index].title)
+                        },
                         title: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text(model.stories[index].title,
