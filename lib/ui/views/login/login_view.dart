@@ -14,6 +14,7 @@ class LoginView extends StatelessWidget {
         backgroundColor: SecondaryColor,
         body: LoginUI(
           loginFunction: model.login,
+          hideUI: model.hideUI,
         ),
       ),
       viewModelBuilder: () => LoginViewModel(),

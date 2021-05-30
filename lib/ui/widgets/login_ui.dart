@@ -4,7 +4,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class LoginUI extends StatelessWidget {
   final void Function() loginFunction;
-  const LoginUI({required this.loginFunction});
+  final bool hideUI;
+  LoginUI({required this.loginFunction, required this.hideUI});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,9 @@ class LoginUI extends StatelessWidget {
         ),
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(
-              top: 20,
-              left: 20,
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -29,7 +30,7 @@ class LoginUI extends StatelessWidget {
                       color: TextColorDark, fontWeight: FontWeight.bold),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Center(
                       child: Image.asset(
                     'images/login.png',
@@ -49,15 +50,17 @@ class LoginUI extends StatelessWidget {
                 ),
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: const EdgeInsets.all(30.0),
                   child: Center(
                     child: NeumorphicButton(
-                      onPressed: loginFunction,
+                      onPressed: hideUI ? () {} : loginFunction,
                       style: NeumorphicStyle(color: SecondaryColor),
-                      child: Text(
-                        "Login with Google",
-                        style: h4.copyWith(color: TextColorDark),
-                      ),
+                      child: hideUI
+                          ? CircularProgressIndicator()
+                          : Text(
+                              "Login with Google",
+                              style: h4.copyWith(color: TextColorDark),
+                            ),
                     ),
                   ),
                 ),

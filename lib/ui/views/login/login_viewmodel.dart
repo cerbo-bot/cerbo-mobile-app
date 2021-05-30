@@ -12,10 +12,9 @@ class LoginViewModel extends BaseViewModel {
   var log = getLogger('LoginView', printCallstack: true);
   final _nagivationService = locator<NavigationService>();
   final _firebaseAuthService = locator<FirebaseAuthenticationService>();
-  bool _hideAuthUI = true;
+  bool _hideAuthUI = false;
   get hideUI => _hideAuthUI;
-  FirebaseAuth? _auth;
-
+  User? _currentUser;
   void navigateToHome() {
     _nagivationService.navigateTo(Routes.homeView);
   }
@@ -23,8 +22,12 @@ class LoginViewModel extends BaseViewModel {
   Future<void> login() async {
     _showLoadingAuthUI();
     try {
-      await _firebaseAuthService.signInWithGoogle();
-      _auth = FirebaseAuth.instance;
+      var authResult = await _firebaseAuthService.signInWithGoogle();
+      if (authResult.hasError) {
+        _showAuthUI();
+      } else {
+        _currentUser = authResult.user;
+      }
       _handleSuccessfulLogin();
     } catch (err, stackTrace) {
       log.e("An error occured", err, stackTrace);
@@ -33,7 +36,7 @@ class LoginViewModel extends BaseViewModel {
   }
 
   void _handleSuccessfulLogin() async {
-    if (_auth?.currentUser?.uid != null && _auth?.currentUser?.email != null) {
+    if (_currentUser?.uid != null && _currentUser?.email != null) {
       types.User cerboUser = types.User(
           avatarUrl:
               'https://cdn.dribbble.com/users/690291/screenshots/3507754/untitled-1.gif',
@@ -41,9 +44,9 @@ class LoginViewModel extends BaseViewModel {
           id: "ZkuedrNkNbtVbAE87sNC");
 
       types.User user = types.User(
-          avatarUrl: 'https://i.pravatar.cc/300?u=${_auth!.currentUser!.email}',
-          firstName: _auth!.currentUser?.displayName ?? "",
-          id: _auth!.currentUser!.uid,
+          avatarUrl: 'https://i.pravatar.cc/300?u=${_currentUser!.email}',
+          firstName: _currentUser?.displayName ?? "",
+          id: _currentUser!.uid,
           lastName: "");
 
       await FirebaseChatCore.instance.createUserInFirestore(
