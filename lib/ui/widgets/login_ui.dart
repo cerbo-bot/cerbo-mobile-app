@@ -1,6 +1,7 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginUI extends StatelessWidget {
   final void Function() loginFunction;
@@ -52,16 +53,26 @@ class LoginUI extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Center(
-                    child: NeumorphicButton(
-                      onPressed: hideUI ? () {} : loginFunction,
-                      style: NeumorphicStyle(color: SecondaryColor),
-                      child: hideUI
-                          ? CircularProgressIndicator()
-                          : Text(
+                    child: hideUI
+                        ? Neumorphic(
+                            style: NeumorphicStyle(
+                                shape: NeumorphicShape.concave,
+                                boxShape: NeumorphicBoxShape.circle(),
+                                color: SecondaryColor),
+                            padding: EdgeInsets.all(18.0),
+                            child: SpinKitDoubleBounce(
+                              color: TextColorDark,
+                              size: 50.0,
+                            ),
+                          )
+                        : NeumorphicButton(
+                            onPressed: loginFunction,
+                            style: NeumorphicStyle(color: SecondaryColor),
+                            child: Text(
                               "Login with Google",
                               style: h4.copyWith(color: TextColorDark),
                             ),
-                    ),
+                          ),
                   ),
                 ),
               ],
