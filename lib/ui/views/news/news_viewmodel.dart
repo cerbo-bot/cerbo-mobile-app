@@ -11,6 +11,7 @@ import 'package:cerbo/services/common.dart';
 import 'package:cerbo/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+import 'package:cerbo/app/app.locator.dart';
 
 class NewsViewModel extends BaseViewModel {
   List<Story> _stories_cache = [];
@@ -112,5 +113,9 @@ class NewsViewModel extends BaseViewModel {
       _stories[index].url: data,
     };
     notifyListeners();
+  }
+
+  share(String message, {String subject = ""}) {
+    locator<CommonServices>().share(message: message, subject: subject);
   }
 }

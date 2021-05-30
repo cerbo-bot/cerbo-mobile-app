@@ -59,7 +59,7 @@ class NewsView extends StatelessWidget {
                       return ListTile(
                         onTap: () => model.openStory(model.stories[index].url),
                         onLongPress: () => {
-                          Share.share(model.stories[index].url.toString(),
+                          model.share(model.stories[index].url.toString(),
                               subject: model.stories[index].title)
                         },
                         title: Padding(
