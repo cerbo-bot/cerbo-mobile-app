@@ -72,9 +72,7 @@ class NewsViewModel extends BaseViewModel {
         .sublist(pageSize * (pageNo - 1), (pageSize * (pageNo)))
         .forEach((element) async {
       try {
-        final storyResponse = await locator<APIService>().getStory(element);
-        final storyJson = jsonDecode(storyResponse.body);
-        final story = Story.fromJSON(storyJson);
+        final story = Story.fromJSON(element);
         _stories_cache.add(story);
         populateSomeStories();
       } catch (e, s) {
