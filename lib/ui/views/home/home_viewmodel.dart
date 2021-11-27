@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_types/src/room.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:cerbo/app/app.locator.dart';
@@ -13,7 +14,7 @@ class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
   final log = getLogger('HomeView');
 
-  late types.Room room;
+  Room room = new Room(id: "", type: RoomType.group, users: []);
 
   void doSomething() {
     _nagivationService.navigateTo(Routes.newsView);
@@ -29,12 +30,13 @@ class HomeViewModel extends BaseViewModel {
   }
 
   initHome() async {
-    FirebaseChatCore.instance.rooms().listen(_setRoom);
+    FirebaseChatCore.instance.rooms().listen(_setRoomId);
   }
 
-  void _setRoom(List<Room> rooms) {
+  void _setRoomId(List<Room> rooms) {
     rooms.forEach((room) {
-      if (room.id == 'ZkuedrNkNbtVbAE87sNC') {
+      log.d(room.toString());
+      if (room.id == '8C7qKvx5VSTzta7oGm2W') {
         this.room = room;
       }
     });

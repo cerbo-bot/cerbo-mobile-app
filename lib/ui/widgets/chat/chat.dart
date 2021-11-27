@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -177,6 +178,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    log(this.widget.room.toString());
     return StreamBuilder<List<types.Message>>(
       stream: FirebaseChatCore.instance.messages(widget.room),
       initialData: const [],
@@ -192,13 +194,12 @@ class _ChatPageState extends State<ChatPage> {
             id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
           ),
           theme: DefaultChatTheme(
-              // backgroundColor: SecondaryColor,
+              backgroundColor: SecondaryColor,
               // body1: body,
               // body2: caption,
-              // inputBackgroundColor: PrimaryColor,
-              // inputBorderRadius: BorderRadius.zero,
-              // primaryColor: PrimaryColor
-              ),
+              inputBackgroundColor: PrimaryColor,
+              inputBorderRadius: BorderRadius.zero,
+              primaryColor: PrimaryColor),
         );
       },
     );
