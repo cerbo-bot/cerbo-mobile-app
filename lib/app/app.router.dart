@@ -15,6 +15,7 @@ import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/news/news_view.dart';
 import '../ui/views/startup/startup_view.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class Routes {
   static const String startUpView = '/';
@@ -65,7 +66,7 @@ class StackedRouter extends RouterBase {
     ChatView: (data) {
       var args = data.getArgs<ChatViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatView(roomId: args.roomId),
+        builder: (context) => ChatView(room: args.room),
         settings: data,
       );
     },
@@ -84,6 +85,6 @@ class StackedRouter extends RouterBase {
 
 /// ChatView arguments holder class
 class ChatViewArguments {
-  final String roomId;
-  ChatViewArguments({required this.roomId});
+  final types.Room room;
+  ChatViewArguments({required this.room});
 }

@@ -7,12 +7,13 @@ import 'package:cerbo/services/common.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
   final log = getLogger('HomeView');
 
-  String roomId = '';
+  late types.Room room;
 
   void doSomething() {
     _nagivationService.navigateTo(Routes.newsView);
@@ -20,7 +21,7 @@ class HomeViewModel extends BaseViewModel {
 
   openChatPage() {
     _nagivationService.navigateTo(Routes.chatView,
-        arguments: ChatViewArguments(roomId: roomId));
+        arguments: ChatViewArguments(room: room));
   }
 
   void openCerboWebsite() {
@@ -28,15 +29,13 @@ class HomeViewModel extends BaseViewModel {
   }
 
   initHome() async {
-    FirebaseChatCore.instance.rooms().listen(_setRoomId);
+    FirebaseChatCore.instance.rooms().listen(_setRoom);
   }
 
-  void _setRoomId(List<Room> rooms) {
+  void _setRoom(List<Room> rooms) {
     rooms.forEach((room) {
-      for (var item in room.users) {
-        if (item.id == 'ZkuedrNkNbtVbAE87sNC') {
-          roomId = room.id;
-        }
+      if (room.id == 'ZkuedrNkNbtVbAE87sNC') {
+        this.room = room;
       }
     });
   }

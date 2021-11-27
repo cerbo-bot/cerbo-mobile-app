@@ -58,13 +58,15 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       await FirebaseChatCore.instance.createUserInFirestore(
         types.User(
-          avatarUrl: 'https://i.pravatar.cc/300?u=$_email',
+          imageUrl: 'https://i.pravatar.cc/300?u=$_email',
           firstName: _firstName,
           id: credential.user!.uid,
           lastName: _lastName,
         ),
       );
-      Navigator.of(context)..pop()..pop();
+      Navigator.of(context)
+        ..pop()
+        ..pop();
     } catch (e) {
       setState(() {
         _registering = false;
