@@ -12,9 +12,12 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
-  final log = getLogger('HomeView');
+  final _firebaseAuthService = locator<FirebaseAuthenticationService>();
 
+  final log = getLogger('HomeView');
   Room room = new Room(id: "", type: RoomType.group, users: []);
+
+  String userName = '';
 
   void doSomething() {
     _nagivationService.navigateTo(Routes.newsView);
@@ -31,6 +34,7 @@ class HomeViewModel extends BaseViewModel {
 
   initHome() async {
     FirebaseChatCore.instance.rooms().listen(_setRoomId);
+    userName = _firebaseAuthService.currentUser!.displayName!;
   }
 
   void _setRoomId(List<Room> rooms) {

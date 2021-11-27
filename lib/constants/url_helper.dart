@@ -4,7 +4,7 @@ class UrlHelper {
   static String base_URL = _getBaseURL();
 
   static String urlForTopStories() {
-    return '$base_URL/news';
+    return '$base_URL/news/json';
   }
 
   static String urlForCommentById(int commentId) {

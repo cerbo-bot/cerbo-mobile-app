@@ -11,6 +11,7 @@ import 'package:cerbo/services/common.dart';
 import 'package:cerbo/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+import 'package:cerbo/app/app.locator.dart';
 
 class NewsViewModel extends BaseViewModel {
   List<Story> _stories_cache = [];
@@ -72,9 +73,7 @@ class NewsViewModel extends BaseViewModel {
         .sublist(pageSize * (pageNo - 1), (pageSize * (pageNo)))
         .forEach((element) async {
       try {
-        final storyResponse = await locator<APIService>().getStory(element);
-        final storyJson = jsonDecode(storyResponse.body);
-        final story = Story.fromJSON(storyJson);
+        final story = Story.fromJSON(element);
         _stories_cache.add(story);
         populateSomeStories();
       } catch (e, s) {
@@ -114,5 +113,9 @@ class NewsViewModel extends BaseViewModel {
       _stories[index].url: data,
     };
     notifyListeners();
+  }
+
+  share(String message, {String subject = ""}) {
+    locator<CommonServices>().share(message: message, subject: subject);
   }
 }
