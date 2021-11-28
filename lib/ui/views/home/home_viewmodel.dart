@@ -1,46 +1,54 @@
-import 'dart:convert';
-
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_bot/app/app.locator.dart';
-import 'package:my_bot/app/app.logger.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/models/story.dart';
-import 'package:my_bot/services/api.dart';
-import 'package:my_bot/services/common.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_types/src/room.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/app/app.router.dart';
+import 'package:cerbo/services/common.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class HomeViewModel extends BaseViewModel {
-  List<Story> _stories = [];
-  List<Story> get stories => _stories;
-  var log = getLogger('HomeView');
+  final _nagivationService = locator<NavigationService>();
+  final _firebaseAuthService = locator<FirebaseAuthenticationService>();
 
-  late SpinKitDoubleBounce loader;
+  final log = getLogger('HomeView');
+  Room room = new Room(id: "", type: RoomType.group, users: []);
+
+  String userName = '';
 
   void doSomething() {
-    loader = SpinKitDoubleBounce(
-      color: TextColorDark,
-      size: 50.0,
-    );
-    _populateTopStories();
-    // this will call the builder defined in the view file and rebuild the ui using
-    // the update version of the model.
-    // notifyListeners();
+    _nagivationService.navigateTo(Routes.newsView);
   }
 
-  void _populateTopStories() async {
-    log.d('fetching stories');
-    final responses = await locator<APIService>().getTopStories();
-    final stories = responses.map((response) {
-      final json = jsonDecode(response.body);
-      return Story.fromJSON(json);
-    }).toList();
-    _stories = stories;
-    notifyListeners();
+  openChatPage() {
+    _nagivationService.navigateTo(Routes.chatView,
+        arguments: ChatViewArguments(room: room));
   }
 
-  openStory(String url) async {
-    try {
-      await locator<CommonServices>().launchUrl(url);
-    } catch (e) {}
+  void openCerboWebsite() {
+    locator<CommonServices>().launchUrl('https://github.com/cerbo-bot');
+  }
+
+  initHome() async {
+    FirebaseChatCore.instance.rooms().listen(_setRoomId);
+    userName = _firebaseAuthService.currentUser!.displayName!;
+  }
+
+  void _setRoomId(List<Room> rooms) {
+    rooms.forEach((room) {
+      for (var item in room.users) {
+        if (item.id == 'ZkuedrNkNbtVbAE87sNC') {
+          this.room = room;
+        }
+      }
+    });
+  }
+
+  void logout() async {
+    await locator<FirebaseAuthenticationService>().logout();
+    _nagivationService.clearStackAndShow(Routes.loginView);
   }
 }

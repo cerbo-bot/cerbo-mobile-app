@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
@@ -6,7 +7,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'app/app.locator.dart';
 import 'app/app.router.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
+  await Firebase.initializeApp();
+
   Logger.level = Level.debug;
   setupLocator();
   runApp(MyApp());

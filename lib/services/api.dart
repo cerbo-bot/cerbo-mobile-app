@@ -1,25 +1,27 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_bot/constants/url_helper.dart';
-import 'package:stacked/stacked_annotations.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/constants/url_helper.dart';
 
-@LazySingleton()
 class APIService {
-  Future<Response> _getStory(int storyId) {
-    return http.get(Uri.parse(UrlHelper.urlForStory(storyId)));
-  }
+  final log = getLogger('APIService');
 
-  Future<List<Response>> getTopStories() async {
-    final response = await http.get(Uri.parse((UrlHelper.urlForTopStories())));
+  Future<List<dynamic>> getTopStories(token) async {
+    var url = Uri.parse((UrlHelper.urlForTopStories()));
+    log.d(url.toString());
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    log.d(response.statusCode);
     if (response.statusCode == 200) {
-      Iterable storyIds = jsonDecode(response.body);
-      return Future.wait(storyIds.take(20).map((storyId) {
-        return _getStory(storyId);
-      }));
+      List storyUrls = jsonDecode(response.body)["message"];
+      return storyUrls;
     } else {
+      log.e(response.statusCode);
       throw Exception("Unable to fetch data!");
     }
   }

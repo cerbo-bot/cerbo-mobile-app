@@ -1,13 +1,21 @@
+import 'package:flutter_config/flutter_config.dart';
+
 class UrlHelper {
-  static String urlForStory(int storyId) {
-    return "https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty";
-  }
+  static String base_URL = _getBaseURL();
 
   static String urlForTopStories() {
-    return "https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty";
+    return '$base_URL/news/json';
   }
 
   static String urlForCommentById(int commentId) {
     return "https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty";
+  }
+
+  static String _getBaseURL() {
+    // try {
+    //   return FlutterConfig.get('BASE_URL_DEVELOPMENT');
+    // } catch (e) {
+    return 'https://cerbo.platinos.in/v1';
+    // }
   }
 }
