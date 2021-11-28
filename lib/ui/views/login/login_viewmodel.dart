@@ -38,13 +38,13 @@ class LoginViewModel extends BaseViewModel {
   void _handleSuccessfulLogin() async {
     if (_currentUser?.uid != null && _currentUser?.email != null) {
       types.User cerboUser = types.User(
-          avatarUrl:
+          imageUrl:
               'https://cdn.dribbble.com/users/690291/screenshots/3507754/untitled-1.gif',
           firstName: "Cerbo",
           id: "ZkuedrNkNbtVbAE87sNC");
 
       types.User user = types.User(
-          avatarUrl: 'https://i.pravatar.cc/300?u=${_currentUser!.email}',
+          imageUrl: 'https://i.pravatar.cc/300?u=${_currentUser!.email}',
           firstName: _currentUser?.displayName ?? "",
           id: _currentUser!.uid,
           lastName: "");

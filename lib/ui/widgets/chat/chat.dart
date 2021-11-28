@@ -7,16 +7,15 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
-import 'package:cerbo/constants/styles.dart';
 import 'package:open_file/open_file.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
     Key? key,
-    required this.roomId,
+    required this.room,
   }) : super(key: key);
 
-  final String roomId;
+  final types.Room room;
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -74,13 +73,13 @@ class _ChatPageState extends State<ChatPage> {
   ) {
     final updatedMessage = message.copyWith(previewData: previewData);
 
-    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.roomId);
+    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.room.id);
   }
 
   void _onSendPressed(types.PartialText message) {
     FirebaseChatCore.instance.sendMessage(
       message,
-      widget.roomId,
+      widget.room.id,
     );
   }
 
@@ -113,7 +112,7 @@ class _ChatPageState extends State<ChatPage> {
         final uri = await reference.getDownloadURL();
 
         final message = types.PartialFile(
-          fileName: fileName,
+          name: fileName,
           mimeType: lookupMimeType(filePath!),
           size: result.files.single.size,
           uri: uri,
@@ -121,7 +120,7 @@ class _ChatPageState extends State<ChatPage> {
 
         FirebaseChatCore.instance.sendMessage(
           message,
-          widget.roomId,
+          widget.room.id,
         );
         _setAttachmentUploading(false);
       } on FirebaseException catch (e) {
@@ -155,7 +154,7 @@ class _ChatPageState extends State<ChatPage> {
 
         final message = types.PartialImage(
           height: image.height.toDouble(),
-          imageName: imageName,
+          name: imageName,
           size: size,
           uri: uri,
           width: image.width.toDouble(),
@@ -163,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
 
         FirebaseChatCore.instance.sendMessage(
           message,
-          widget.roomId,
+          widget.room.id,
         );
         _setAttachmentUploading(false);
       } on FirebaseException catch (e) {
@@ -178,7 +177,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<types.Message>>(
-      stream: FirebaseChatCore.instance.messages(widget.roomId),
+      stream: FirebaseChatCore.instance.messages(widget.room),
       initialData: const [],
       builder: (context, snapshot) {
         return Chat(
@@ -191,13 +190,13 @@ class _ChatPageState extends State<ChatPage> {
           user: types.User(
             id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
           ),
-          theme: DefaultChatTheme(
-              backgroundColor: SecondaryColor,
-              body1: body,
-              body2: caption,
-              inputBackgroundColor: PrimaryColor,
-              inputBorderRadius: BorderRadius.zero,
-              primaryColor: PrimaryColor),
+          // theme: DefaultChatTheme(
+          //     backgroundColor: SecondaryColor,
+          //     // inputTextStyle: body,
+          //     // body2: caption,
+          //     inputBackgroundColor: PrimaryColor,
+          //     inputBorderRadius: BorderRadius.zero,
+          //     primaryColor: PrimaryColor),
         );
       },
     );
