@@ -39,9 +39,10 @@ class HomeViewModel extends BaseViewModel {
 
   void _setRoomId(List<Room> rooms) {
     rooms.forEach((room) {
-      log.d(room.toString());
-      if (room.id == '8C7qKvx5VSTzta7oGm2W') {
-        this.room = room;
+      for (var item in room.users) {
+        if (item.id == 'ZkuedrNkNbtVbAE87sNC') {
+          this.room = room;
+        }
       }
     });
   }
