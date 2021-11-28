@@ -1,25 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_bot/constants/styles.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/services/string_helper.dart';
 
 class BotHomeWidget extends StatelessWidget {
   final VoidCallback executeOperation;
-  BotHomeWidget({required this.executeOperation});
+  final String userName;
+  BotHomeWidget({required this.executeOperation, this.userName = ""});
+  Widget _getBotImage() {
+    return Image.asset('images/cerbo.png');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 50, bottom: 20),
-          child: Center(
-              child: Image.asset(
-            "images/bot.png",
-            width: 144,
-          )),
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Center(child: Container(height: 200, child: _getBotImage())),
         ),
         Text(
-          "Hi!\nI'm Cerbo.",
+          "Hi ${userName.split(' ')[0].capitalize()}\nI'm Cerbo.",
           style: h2,
           textAlign: TextAlign.center,
         ),

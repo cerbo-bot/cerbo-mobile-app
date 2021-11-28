@@ -1,4 +1,4 @@
-import 'package:my_bot/app/app.logger.dart';
+import 'package:cerbo/app/app.logger.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatViewModel extends BaseViewModel {

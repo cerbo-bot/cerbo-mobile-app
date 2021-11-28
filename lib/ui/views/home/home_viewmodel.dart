@@ -1,115 +1,54 @@
-import 'dart:convert';
-
-import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:my_bot/app/app.locator.dart';
-import 'package:my_bot/app/app.logger.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/models/story.dart';
-import 'package:my_bot/services/api.dart';
-import 'package:my_bot/services/common.dart';
-import 'package:my_bot/ui/widgets/rotated_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_types/src/room.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/app/app.router.dart';
+import 'package:cerbo/services/common.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class HomeViewModel extends BaseViewModel {
-  List<Story> _stories_cache = [];
-  List<Story> _stories = [];
-  List<dynamic> _storyUrls = [];
-  List<Story> get stories => _stories;
-  int delayTimeToFetchNewStories = 900;
-  int pageSize = 10;
-  int pageNo = 1;
-  var log = getLogger('HomeView', printCallstack: true);
-  DateTime? fetchTime;
-  bool showBottomBarText = false;
-  String bottomBarText = "Loading more stories";
+  final _nagivationService = locator<NavigationService>();
+  final _firebaseAuthService = locator<FirebaseAuthenticationService>();
 
-  late SpinKitDoubleBounce loader;
-  Map<String, PreviewData> _previewData = {};
-  get previewData => _previewData;
-  AnimationSyncButtonController? animationSyncButtonController;
+  final log = getLogger('HomeView');
+  Room room = new Room(id: "", type: RoomType.group, users: []);
 
-  void showLoading() {
-    loader = SpinKitDoubleBounce(
-      color: TextColorDark,
-      size: 50.0,
-    );
+  String userName = '';
+
+  void doSomething() {
+    _nagivationService.navigateTo(Routes.newsView);
   }
 
-  bool isFetchingNewStoriesNeeded() {
-    DateTime currentTime = DateTime.now();
-    if (fetchTime != null) {
-      if (currentTime.difference(fetchTime!).inSeconds >
-          delayTimeToFetchNewStories) {
-        return true;
-      }
-    }
-    return false;
+  openChatPage() {
+    _nagivationService.navigateTo(Routes.chatView,
+        arguments: ChatViewArguments(room: room));
   }
 
-  void getInitalStories() {
-    if (_stories.length == 0 || isFetchingNewStoriesNeeded()) {
-      getStoriesAndCache();
-    }
+  void openCerboWebsite() {
+    locator<CommonServices>().launchUrl('https://github.com/cerbo-bot');
   }
 
-  void getStoriesAndCache() async {
-    fetchTime = DateTime.now();
-    showLoading();
-    try {
-      _storyUrls = await locator<APIService>().getTopStories();
-      fetchAndUpdateStories();
-    } catch (e, s) {
-      log.e("Error in fetching stories", e, s);
-    }
+  initHome() async {
+    FirebaseChatCore.instance.rooms().listen(_setRoomId);
+    userName = _firebaseAuthService.currentUser!.displayName!;
   }
 
-  void fetchAndUpdateStories() {
-    _storyUrls
-        .sublist(pageSize * (pageNo - 1), (pageSize * (pageNo)))
-        .forEach((element) async {
-      try {
-        final storyResponse = await locator<APIService>().getStory(element);
-        final storyJson = jsonDecode(storyResponse.body);
-        final story = Story.fromJSON(storyJson);
-        _stories_cache.add(story);
-        populateSomeStories();
-      } catch (e, s) {
-        log.e("Error in fetching story: $element : $e", e, s);
+  void _setRoomId(List<Room> rooms) {
+    rooms.forEach((room) {
+      for (var item in room.users) {
+        if (item.id == 'ZkuedrNkNbtVbAE87sNC') {
+          this.room = room;
+        }
       }
     });
   }
 
-  void populateSomeStories() {
-    _stories = List.from(_stories_cache);
-    showBottomBarText = false;
-    notifyListeners();
-  }
-
-  getNext() {
-    if ((pageSize * (pageNo + 1)) <= _storyUrls.length) {
-      bottomBarText = "Loading more stories ...";
-      showBottomBarText = true;
-      pageNo++;
-      fetchAndUpdateStories();
-    } else {
-      bottomBarText = "No more stories";
-      showBottomBarText = true;
-    }
-    notifyListeners();
-  }
-
-  openStory(String url) async {
-    try {
-      await locator<CommonServices>().launchUrl(url);
-    } catch (e) {}
-  }
-
-  void savePreviewData(PreviewData data, index) {
-    _previewData = {
-      ..._previewData,
-      _stories[index].url: data,
-    };
-    notifyListeners();
+  void logout() async {
+    await locator<FirebaseAuthenticationService>().logout();
+    _nagivationService.clearStackAndShow(Routes.loginView);
   }
 }

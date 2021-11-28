@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_bot/constants/styles.dart';
-import 'package:my_bot/ui/widgets/chat_widget.dart';
+import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/ui/widgets/chat_widget.dart';
 import 'package:stacked/stacked.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import 'chat_viewmodel.dart';
 
 class ChatView extends StatelessWidget {
-  const ChatView() : super();
+  final types.Room room;
+  const ChatView({required this.room});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class ChatView extends StatelessWidget {
             color: TextColorDark,
           ),
         ),
-        body: ChatWidget(),
+        body: ChatWidget(
+          room: room,
+        ),
       ),
       viewModelBuilder: () => ChatViewModel(),
     );
