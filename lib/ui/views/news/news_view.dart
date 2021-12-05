@@ -18,7 +18,7 @@ class NewsView extends StatelessWidget {
           elevation: 0,
           title: Text(
             "Top Stories",
-            style: h3.copyWith(color: TextColorDark),
+            style: subtitle1.copyWith(color: TextColorDark),
           ),
           leading: BackButton(
             color: TextColorDark,
@@ -65,7 +65,7 @@ class NewsView extends StatelessWidget {
                         title: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text(model.stories[index].title,
-                              style: h4.copyWith(color: TextColorDark)),
+                              style: heading6.copyWith(color: TextColorDark)),
                         ),
                         subtitle: LinkPreview(
                           enableAnimation: true,
@@ -94,7 +94,8 @@ class NewsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Loading more stories ...",
-                      style: h4.copyWith(color: TextColorDark, fontSize: 12)),
+                      style: heading6.copyWith(
+                          color: TextColorDark, fontSize: 12)),
                 ],
               )
             : null,

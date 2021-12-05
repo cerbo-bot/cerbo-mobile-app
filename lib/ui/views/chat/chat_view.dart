@@ -20,7 +20,7 @@ class ChatView extends StatelessWidget {
           elevation: 0,
           title: Text(
             "Ask Cerbo",
-            style: h3.copyWith(color: TextColorDark),
+            style: subtitle1.copyWith(color: TextColorDark),
           ),
           leading: BackButton(
             color: TextColorDark,

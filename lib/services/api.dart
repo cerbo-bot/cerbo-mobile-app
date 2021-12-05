@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cerbo/services/dummyData.dart';
 import 'package:http/http.dart' as http;
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/constants/url_helper.dart';
@@ -24,5 +25,12 @@ class APIService {
       log.e(response.statusCode);
       throw Exception("Unable to fetch data!");
     }
+  }
+
+  Future<dynamic> getNewsByCategory(token) async {
+    var url = Uri.parse((UrlHelper.urlForTopStories()));
+    log.d(url.toString());
+    await Future.delayed(Duration(seconds: 1));
+    return (new DummyData()).getNewsByCategory();
   }
 }

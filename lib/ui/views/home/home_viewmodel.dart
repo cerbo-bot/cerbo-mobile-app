@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_chat_types/src/room.dart';
+import 'package:cerbo/models/categories.dart';
+import 'package:cerbo/services/api.dart';
+import 'package:cerbo/services/dummyData.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:cerbo/app/app.locator.dart';
 import 'package:cerbo/app/app.logger.dart';
@@ -8,11 +9,19 @@ import 'package:cerbo/services/common.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_chat_types/flutter_chat_types.dart';
+
+import '../../re_usable_functions.dart';
 
 class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
   final _firebaseAuthService = locator<FirebaseAuthenticationService>();
+  final _apiService = locator<APIService>();
+
+  Categories? categoriesCache;
+
+  String selectedCategoryTab = "";
+  String selectedRegionalTab = "";
 
   final log = getLogger('HomeView');
   Room room = new Room(id: "", type: RoomType.group, users: []);
@@ -29,12 +38,14 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void openCerboWebsite() {
-    locator<CommonServices>().launchUrl('https://github.com/cerbo-bot');
+    launchUrl('https://github.com/cerbo-bot');
   }
 
   initHome() async {
     FirebaseChatCore.instance.rooms().listen(_setRoomId);
     userName = _firebaseAuthService.currentUser!.displayName!;
+    categoriesCache = await getIntialCategories();
+    changeSelectedCategoryTab("popular");
   }
 
   void _setRoomId(List<Room> rooms) {
@@ -50,5 +61,31 @@ class HomeViewModel extends BaseViewModel {
   void logout() async {
     await locator<FirebaseAuthenticationService>().logout();
     _nagivationService.clearStackAndShow(Routes.loginView);
+  }
+
+  void search() {}
+
+  Future<Categories> getIntialCategories() async {
+    DummyData dummyData = new DummyData();
+    var json = await dummyData.getNewsByCategory();
+    return new Categories.fromJson(json);
+  }
+
+  void changeSelectedCategoryTab(String category) {
+    selectedCategoryTab = category;
+    selectedRegionalTab = (this.selectedCategoryTab.toLowerCase() == "popular"
+            ? this.categoriesCache?.popular?.regionalNews?.keys.first
+            : this.selectedCategoryTab.toLowerCase() == "recent"
+                ? this.categoriesCache?.recent?.regionalNews?.keys.first
+                : this.categoriesCache?.trending?.regionalNews?.keys.first) ??
+        "";
+    notifyListeners();
+  }
+
+  void changeSelectedRegionalNewsTab(String category) {
+    log.d(category);
+    selectedRegionalTab = category;
+    log.d(categoriesCache?.recent?.regionalNews?[category]?.toJson());
+    notifyListeners();
   }
 }
