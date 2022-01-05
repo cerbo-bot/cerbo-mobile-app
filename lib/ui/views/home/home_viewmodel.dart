@@ -1,15 +1,15 @@
-import 'package:cerbo/models/categories.dart';
-import 'package:cerbo/services/api.dart';
-import 'package:cerbo/services/dummyData.dart';
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:cerbo/app/app.locator.dart';
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/app/app.router.dart';
-import 'package:cerbo/services/common.dart';
+import 'package:cerbo/models/categories.dart';
+import 'package:cerbo/models/news.dart';
+import 'package:cerbo/services/api.dart';
+import 'package:cerbo/services/dummyData.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart';
 
 import '../../re_usable_functions.dart';
 
@@ -22,6 +22,9 @@ class HomeViewModel extends BaseViewModel {
 
   String selectedCategoryTab = "";
   String selectedRegionalTab = "";
+  String selectedRecentTab = "Read Later";
+  List<News> recentlyVisitedHistory = [];
+  List<News> readLaterHistory = [];
 
   final log = getLogger('HomeView');
   Room room = new Room(id: "", type: RoomType.group, users: []);
@@ -83,9 +86,35 @@ class HomeViewModel extends BaseViewModel {
   }
 
   void changeSelectedRegionalNewsTab(String category) {
-    log.d(category);
     selectedRegionalTab = category;
-    log.d(categoriesCache?.recent?.regionalNews?[category]?.toJson());
+    notifyListeners();
+  }
+
+  void changeSelectedRecentTab(String category) {
+    selectedRecentTab = category;
+    log.d(recentlyVisitedHistory.length);
+    notifyListeners();
+  }
+
+  void addNewsToHistory(News news) {
+    recentlyVisitedHistory.add(news);
+  }
+
+  void removeNewsToHistory(News news) {
+    recentlyVisitedHistory.removeWhere((tempNews) {
+      return news.title == tempNews.title;
+    });
+    notifyListeners();
+  }
+
+  void addNewsToReadLater(News news) {
+    readLaterHistory.add(news);
+  }
+
+  void removeNewsToReadLater(News news) {
+    readLaterHistory.removeWhere((tempNews) {
+      return news.title == tempNews.title;
+    });
     notifyListeners();
   }
 }

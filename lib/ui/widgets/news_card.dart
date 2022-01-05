@@ -7,7 +7,19 @@ import '../re_usable_functions.dart';
 
 class NewsCard extends StatelessWidget {
   final News? news;
-  const NewsCard({Key? key, this.news}) : super(key: key);
+  final Function addToHistory;
+  final Function addToReadLater;
+  final Function removeNewsFromHistory;
+  final bool shouldShowReadLater;
+
+  const NewsCard(
+      {Key? key,
+      this.news,
+      required this.addToHistory,
+      required this.addToReadLater,
+      required this.removeNewsFromHistory,
+      this.shouldShowReadLater = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +42,7 @@ class NewsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         try {
+          addToHistory(this.news);
           launchUrl(news?.link ?? "");
         } catch (exception) {
           showSnakBar(context, "Unable to open this article");
@@ -103,16 +116,39 @@ class NewsCard extends StatelessWidget {
                               style: body2.copyWith(color: TextColorUnSelected),
                             ),
                             SizedBox(width: 12),
-                            Icon(
-                              CupertinoIcons.eyeglasses,
-                              size: 16,
-                              color: TextColorUnSelected,
-                            ),
+                            shouldShowReadLater
+                                ? Icon(
+                                    CupertinoIcons.eyeglasses,
+                                    size: 16,
+                                    color: TextColorUnSelected,
+                                  )
+                                : Icon(
+                                    CupertinoIcons.delete,
+                                    size: 16,
+                                    color: TextColorUnSelected,
+                                  ),
                             SizedBox(width: 8),
-                            Text(
-                              "${news?.views ?? 0} views",
-                              style: body2.copyWith(color: TextColorUnSelected),
-                            ),
+                            shouldShowReadLater
+                                ? GestureDetector(
+                                    onTap: () {
+                                      addToReadLater(this.news);
+                                    },
+                                    child: Text(
+                                      "Read later",
+                                      style: body2.copyWith(
+                                          color: TextColorUnSelected),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      removeNewsFromHistory(this.news);
+                                    },
+                                    child: Text(
+                                      "Remove",
+                                      style: body2.copyWith(
+                                          color: TextColorUnSelected),
+                                    ),
+                                  ),
                           ],
                         ),
                       ),
