@@ -1,3 +1,4 @@
+import 'package:cerbo/models/news.dart';
 import 'package:cerbo/ui/views/home/home_viewmodel.dart';
 import 'package:cerbo/ui/widgets/cerbo_tab_bar_buttton.dart';
 import 'package:cerbo/ui/widgets/news_card.dart';
@@ -47,8 +48,8 @@ class RecentView extends StatelessWidget {
                 removeNewsFromHistory: model.selectedRecentTab == "History"
                     ? model.removeNewsToHistory
                     : model.removeNewsToReadLater,
-                addToReadLater: () {},
-                addToHistory: () {},
+                addToReadLater: (News? news) {},
+                addToHistory: (News? news) {},
                 news: model.selectedRecentTab == "History"
                     ? model.recentlyVisitedHistory[index]
                     : model.readLaterHistory[index],

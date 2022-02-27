@@ -1,5 +1,6 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/models/news.dart';
+import 'package:cerbo/ui/widgets/read_later_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +8,9 @@ import '../re_usable_functions.dart';
 
 class NewsCard extends StatelessWidget {
   final News? news;
-  final Function addToHistory;
-  final Function addToReadLater;
-  final Function removeNewsFromHistory;
+  final void Function(News) addToHistory;
+  final void Function(News) addToReadLater;
+  final void Function(News) removeNewsFromHistory;
   final bool shouldShowReadLater;
 
   const NewsCard(
@@ -42,8 +43,10 @@ class NewsCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         try {
-          addToHistory(this.news);
-          launchUrl(news?.link ?? "");
+          if (this.news != null) {
+            addToHistory(this.news!);
+            launchUrl(news?.link ?? "");
+          }
         } catch (exception) {
           showSnakBar(context, "Unable to open this article");
         }
@@ -77,6 +80,12 @@ class NewsCard extends StatelessWidget {
                     height: newsCardImageHeight,
                     width: newsCardImageWidth,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset("images/image-alternate.png",
+                          height: newsCardImageHeight,
+                          width: newsCardImageWidth,
+                          fit: BoxFit.cover);
+                    },
                   ),
                 ),
                 Container(
@@ -116,39 +125,11 @@ class NewsCard extends StatelessWidget {
                               style: body2.copyWith(color: TextColorUnSelected),
                             ),
                             SizedBox(width: 12),
-                            shouldShowReadLater
-                                ? Icon(
-                                    CupertinoIcons.eyeglasses,
-                                    size: 16,
-                                    color: TextColorUnSelected,
-                                  )
-                                : Icon(
-                                    CupertinoIcons.delete,
-                                    size: 16,
-                                    color: TextColorUnSelected,
-                                  ),
-                            SizedBox(width: 8),
-                            shouldShowReadLater
-                                ? GestureDetector(
-                                    onTap: () {
-                                      addToReadLater(this.news);
-                                    },
-                                    child: Text(
-                                      "Read later",
-                                      style: body2.copyWith(
-                                          color: TextColorUnSelected),
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      removeNewsFromHistory(this.news);
-                                    },
-                                    child: Text(
-                                      "Remove",
-                                      style: body2.copyWith(
-                                          color: TextColorUnSelected),
-                                    ),
-                                  ),
+                            ReadLaterWidget(
+                                addToReadLater: addToReadLater,
+                                news: news,
+                                shouldShowReadLater: shouldShowReadLater,
+                                removeNewsFromHistory: removeNewsFromHistory)
                           ],
                         ),
                       ),

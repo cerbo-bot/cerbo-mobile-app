@@ -1,4 +1,5 @@
 import 'package:cerbo/constants/styles.dart';
+import 'package:cerbo/models/news.dart';
 import 'package:cerbo/ui/views/home/recent/recent_view.dart';
 import 'package:cerbo/ui/widgets/cerbo_carousal.dart';
 import 'package:cerbo/ui/widgets/cerbo_tab_bar_buttton.dart';
@@ -160,7 +161,7 @@ class HomeView extends StatelessWidget {
                                   child: ListView.builder(
                                     itemBuilder: (context, index) {
                                       return NewsCard(
-                                          removeNewsFromHistory: () {},
+                                          removeNewsFromHistory: (News news) {},
                                           addToReadLater:
                                               model.addNewsToReadLater,
                                           addToHistory: model.addNewsToHistory,

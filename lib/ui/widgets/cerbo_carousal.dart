@@ -44,12 +44,17 @@ class CerboCarousal extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                  newsList?.newsList?[index].img ??
-                      "https://images.financialexpress.com/2021/10/Nissan-Magnite.jpg?w=692",
-                  height: carousalHeight,
-                  width: carousalWidth,
-                  fit: BoxFit.fitHeight,
-                ),
+                    newsList?.newsList?[index].img ??
+                        "https://images.financialexpress.com/2021/10/Nissan-Magnite.jpg?w=692",
+                    height: carousalHeight,
+                    width: carousalWidth,
+                    fit: BoxFit.fitHeight,
+                    errorBuilder: (context, error, stackTrace) {
+                  return Image.asset("images/carousal-alternate.png",
+                      height: carousalHeight,
+                      width: carousalWidth,
+                      fit: BoxFit.cover);
+                }),
               ),
             ),
             Positioned(

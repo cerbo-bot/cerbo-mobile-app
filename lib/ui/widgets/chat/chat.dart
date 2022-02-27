@@ -184,7 +184,7 @@ class _ChatPageState extends State<ChatPage> {
           isAttachmentUploading: _isAttachmentUploading,
           messages: snapshot.data ?? [],
           onAttachmentPressed: _handleAtachmentPress,
-          onMessageTap: _openFile,
+          // onMessageTap: _openFile,
           onPreviewDataFetched: _onPreviewDataFetched,
           onSendPressed: _onSendPressed,
           user: types.User(
