@@ -16,7 +16,7 @@ class CommonServices {
   }
 
   void share(
-      {String title = "shared via Cerbo",
+      {String title = " - Cerbo",
       required String message,
       String subject = ""}) {
     Share.share(message + ":" + title, subject: subject);

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cerbo/models/news_item.dart';
 import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cerbo/app/app.locator.dart';
@@ -14,10 +15,10 @@ import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:cerbo/app/app.locator.dart';
 
 class NewsViewModel extends BaseViewModel {
-  List<Story> _stories_cache = [];
-  List<Story> _stories = [];
-  List<dynamic> _storyUrls = [];
-  List<Story> get stories => _stories;
+  List<NewsItem>? _stories_cache = [];
+  List<NewsItem>? _stories = [];
+  List<NewsItem>? _storyUrls = [];
+  List<NewsItem>? get stories => _stories;
   int delayTimeToFetchNewStories = 900;
   int pageSize = 10;
   int pageNo = 1;
@@ -51,7 +52,7 @@ class NewsViewModel extends BaseViewModel {
   }
 
   void getInitalStories() {
-    if (_stories.length == 0 || isFetchingNewStoriesNeeded()) {
+    if (_stories!.length == 0 || isFetchingNewStoriesNeeded()) {
       getStoriesAndCache();
     }
   }
@@ -61,20 +62,24 @@ class NewsViewModel extends BaseViewModel {
     showLoading();
     try {
       var token = await _firebaseAuthService.userToken;
-      _storyUrls = await locator<APIService>().getTopStories(token);
-      fetchAndUpdateStories();
+      var temp = await locator<APIService>().getNews(token);
+      _storyUrls = temp.data;
+
+      if (_storyUrls == null) {
+        log.d('Something happened with the data');
+      } else
+        fetchAndUpdateStories();
     } catch (e, s) {
       log.e("Error in fetching stories", e, s);
     }
   }
 
   void fetchAndUpdateStories() {
-    _storyUrls
+    _storyUrls!
         .sublist(pageSize * (pageNo - 1), (pageSize * (pageNo)))
         .forEach((element) async {
       try {
-        final story = Story.fromJSON(element);
-        _stories_cache.add(story);
+        _stories_cache!.add(element);
         populateSomeStories();
       } catch (e, s) {
         log.e("Error in fetching story: $element : $e", e, s);
@@ -83,13 +88,13 @@ class NewsViewModel extends BaseViewModel {
   }
 
   void populateSomeStories() {
-    _stories = List.from(_stories_cache);
+    _stories = _stories_cache;
     showBottomBarText = false;
     notifyListeners();
   }
 
   getNext() {
-    if ((pageSize * (pageNo + 1)) <= _storyUrls.length) {
+    if ((pageSize * (pageNo + 1)) <= _storyUrls!.length) {
       bottomBarText = "Loading more stories ...";
       showBottomBarText = true;
       pageNo++;
@@ -110,7 +115,7 @@ class NewsViewModel extends BaseViewModel {
   void savePreviewData(PreviewData data, index) {
     _previewData = {
       ..._previewData,
-      _stories[index].url: data,
+      _stories![index].url!: data,
     };
     notifyListeners();
   }

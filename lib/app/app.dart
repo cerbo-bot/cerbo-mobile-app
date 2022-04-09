@@ -1,6 +1,5 @@
 import 'package:cerbo/services/api.dart';
 import 'package:cerbo/services/common.dart';
-import 'package:cerbo/ui/views/chat/chat_view.dart';
 import 'package:cerbo/ui/views/home/home_view.dart';
 import 'package:cerbo/ui/views/login/login_view.dart';
 import 'package:cerbo/ui/views/news/news_view.dart';
@@ -13,7 +12,6 @@ import 'package:stacked_services/stacked_services.dart';
   MaterialRoute(page: StartUpView, initial: true),
   CupertinoRoute(page: HomeView),
   CupertinoRoute(page: LoginView),
-  CupertinoRoute(page: ChatView),
   CupertinoRoute(page: NewsView),
 ], dependencies: [
   Singleton(classType: NavigationService),
