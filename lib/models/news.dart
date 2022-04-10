@@ -1,48 +1,52 @@
+import 'package:cerbo/models/author.dart';
+
 class News {
+  Author? author;
   String? title;
-  String? description;
-  String? img;
-  String? author;
-  String? category;
-  int? readTime;
-  int? createdAt;
+  String? text;
+  String? image;
+  String? content;
+  List<String?>? categories;
+  String? url;
+  String? id;
+  String? date;
   String? link;
-  int? views;
 
   News(
       {this.title,
-      this.description,
-      this.img,
+      this.text,
+      this.image,
       this.author,
-      this.category,
-      this.readTime,
-      this.createdAt,
-      this.link,
-      this.views});
+      this.content,
+      this.id,
+      this.date,
+      this.categories});
 
   News.fromJson(Map<String, dynamic> json) {
     title = json['title'];
-    description = json['description'];
-    img = json['img'];
+    text = json['text'];
+    image = json['image'];
     author = json['author'];
-    category = json['category'];
-    readTime = json['read_time'];
-    createdAt = json['created_at'];
-    link = json['link'];
-    views = json['views'];
+    content = json['content'];
+    categories = json['categories'];
+    id = json['_id'];
+    url = json["url"];
+    date = json['date'];
+    link = json["link"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
-    data['description'] = this.description;
-    data['img'] = this.img;
+    data['text'] = this.text;
+    data['image'] = this.image;
     data['author'] = this.author;
-    data['category'] = this.category;
-    data['read_time'] = this.readTime;
-    data['created_at'] = this.createdAt;
-    data['link'] = this.link;
-    data['views'] = this.views;
+    data['content'] = this.content;
+    data['categories'] = this.categories;
+    data["url"] = this.url;
+    data['created_at'] = this.id;
+    data['date'] = this.date;
+    data["link"] = this.link;
     return data;
   }
 }

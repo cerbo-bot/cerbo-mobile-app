@@ -19,13 +19,11 @@ class Routes {
   static const String startUpView = '/';
   static const String homeView = '/home-view';
   static const String loginView = '/login-view';
-  static const String chatView = '/chat-view';
   static const String newsView = '/news-view';
   static const all = <String>{
     startUpView,
     homeView,
     loginView,
-    chatView,
     newsView,
   };
 }

@@ -63,7 +63,7 @@ class NewsViewModel extends BaseViewModel {
     showLoading();
     try {
       var token = await _firebaseAuthService.userToken;
-      _storyUrls = await locator<APIService>().getTopStories(token);
+      _storyUrls = await locator<APIService>().getNews(token);
       fetchAndUpdateStories();
     } catch (e, s) {
       log.e("Error in fetching stories", e, s);

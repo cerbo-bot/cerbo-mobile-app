@@ -2,11 +2,13 @@ import 'package:cerbo/app/app.locator.dart';
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/app/app.router.dart';
 import 'package:cerbo/models/categories.dart';
+import 'package:cerbo/models/category.dart';
 import 'package:cerbo/models/news.dart';
 import 'package:cerbo/services/api.dart';
 import 'package:cerbo/services/dummyData.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -18,13 +20,21 @@ class HomeViewModel extends BaseViewModel {
   final _firebaseAuthService = locator<FirebaseAuthenticationService>();
   final _apiService = locator<APIService>();
 
-  Categories? categoriesCache;
+  List<Category>? categoriesCache;
 
   String selectedCategoryTab = "";
   String selectedRegionalTab = "";
   String selectedRecentTab = "Read Later";
   List<News> recentlyVisitedHistory = [];
   List<News> readLaterHistory = [];
+  final mainCategories = [
+    Category(name: "Popular"),
+    Category(name: "Trending"),
+    Category(name: "Recent")
+  ];
+
+  final List<Category> categories = [];
+  final List<News> news = [];
 
   final log = getLogger('HomeView');
   Room room = new Room(id: "", type: RoomType.group, users: []);
@@ -35,30 +45,15 @@ class HomeViewModel extends BaseViewModel {
     _nagivationService.navigateTo(Routes.newsView);
   }
 
-  openChatPage() {
-    _nagivationService.navigateTo(Routes.chatView,
-        arguments: ChatViewArguments(room: room));
-  }
-
   void openCerboWebsite() {
     launchUrl('https://github.com/cerbo-bot');
   }
 
   initHome() async {
-    FirebaseChatCore.instance.rooms().listen(_setRoomId);
     userName = _firebaseAuthService.currentUser!.displayName!;
     categoriesCache = await getIntialCategories();
-    changeSelectedCategoryTab("popular");
-  }
-
-  void _setRoomId(List<Room> rooms) {
-    rooms.forEach((room) {
-      for (var item in room.users) {
-        if (item.id == 'ZkuedrNkNbtVbAE87sNC') {
-          this.room = room;
-        }
-      }
-    });
+    getCategories();
+    getNews();
   }
 
   void logout() async {
@@ -68,21 +63,8 @@ class HomeViewModel extends BaseViewModel {
 
   void search() {}
 
-  Future<Categories> getIntialCategories() async {
-    DummyData dummyData = new DummyData();
-    var json = await dummyData.getNewsByCategory();
-    return new Categories.fromJson(json);
-  }
-
-  void changeSelectedCategoryTab(String category) {
-    selectedCategoryTab = category;
-    selectedRegionalTab = (this.selectedCategoryTab.toLowerCase() == "popular"
-            ? this.categoriesCache?.popular?.regionalNews?.keys.first
-            : this.selectedCategoryTab.toLowerCase() == "recent"
-                ? this.categoriesCache?.recent?.regionalNews?.keys.first
-                : this.categoriesCache?.trending?.regionalNews?.keys.first) ??
-        "";
-    notifyListeners();
+  Future<List<Category>> getIntialCategories() async {
+    return _apiService.getCategories();
   }
 
   void changeSelectedRegionalNewsTab(String category) {
@@ -115,6 +97,26 @@ class HomeViewModel extends BaseViewModel {
     readLaterHistory.removeWhere((tempNews) {
       return news.title == tempNews.title;
     });
+    notifyListeners();
+  }
+
+  Future getCategories() async {
+    var categories = await _apiService.getCategories();
+    categories.forEach((element) {
+      log.e(element.toJson());
+    });
+    this.categories.addAll(categories);
+    notifyListeners();
+  }
+
+  Future getNews() async {
+    var token = await _firebaseAuthService.userToken;
+    log.e("Token $token");
+    var news = await _apiService.getNews(token);
+    categories.forEach((element) {
+      log.e(element.toJson());
+    });
+    this.news.addAll(news);
     notifyListeners();
   }
 }

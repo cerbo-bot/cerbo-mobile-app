@@ -54,7 +54,7 @@ class NewsCard extends StatelessWidget {
       onLongPress: () {
         share(
             title: news?.title ?? "",
-            subject: news?.description ?? "",
+            subject: news?.content ?? "",
             message: news?.link ?? "");
       },
       child: Container(
@@ -75,7 +75,7 @@ class NewsCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(newsEdgeRadius),
                   child: Image.network(
-                    news?.img ??
+                    news?.image ??
                         "https://images.financialexpress.com/2021/10/Nissan-Magnite.jpg?w=692",
                     height: newsCardImageHeight,
                     width: newsCardImageWidth,
@@ -103,7 +103,7 @@ class NewsCard extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        news?.description ?? "",
+                        news?.content ?? "",
                         style: heading7.copyWith(fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -120,10 +120,10 @@ class NewsCard extends StatelessWidget {
                               color: TextColorUnSelected,
                             ),
                             SizedBox(width: 8),
-                            Text(
-                              "${getTimeInString((news?.readTime) ?? 0)}",
-                              style: body2.copyWith(color: TextColorUnSelected),
-                            ),
+                            // Text(
+                            //   "${getTimeInString((news?.readTime) ?? 0)}",
+                            //   style: body2.copyWith(color: TextColorUnSelected),
+                            // ),
                             SizedBox(width: 12),
                             ReadLaterWidget(
                                 addToReadLater: addToReadLater,

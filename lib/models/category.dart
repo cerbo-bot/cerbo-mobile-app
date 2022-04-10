@@ -1,33 +1,18 @@
-import 'package:cerbo/models/news_list.dart';
-
 class Category {
-  NewsList? carousel;
-  Map<String, NewsList>? regionalNews;
+  String? name;
+  String? image;
 
-  Category({this.carousel, this.regionalNews});
+  Category({this.image, this.name});
 
   Category.fromJson(Map<String, dynamic> json) {
-    if (json['carousel'] != null) {
-      carousel = new NewsList.fromJson(json["carousel"]);
-    }
-    if (json["regional news"] != null) {
-      regionalNews = {};
-      (json["regional news"]).forEach((key, value) {
-        regionalNews?[key] = new NewsList.fromJson(value);
-      });
-    }
+    this.name = json["name"];
+    this.image = json["image"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.carousel != null) {
-      data['carousel'] = this.carousel?.toJson();
-    }
-    if (this.regionalNews != null) {
-      this.regionalNews?.forEach((k, v) {
-        data['regional news'] = {k: v.toJson()};
-      });
-    }
+    data["name"] = this.name;
+    data["image"] = this.image;
     return data;
   }
 }
