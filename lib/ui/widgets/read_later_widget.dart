@@ -56,7 +56,7 @@ class _ReadLaterWidgetState extends State<ReadLaterWidget> {
                 },
                 child: Text(
                   "Read later",
-                  style: body2.copyWith(color: TextColorUnSelected),
+                  style: captionLight,
                 ),
               )
             : GestureDetector(
@@ -67,7 +67,7 @@ class _ReadLaterWidgetState extends State<ReadLaterWidget> {
                 },
                 child: Text(
                   "Remove",
-                  style: body2.copyWith(color: TextColorUnSelected),
+                  style: captionLight,
                 ),
               ),
       ],

@@ -1,14 +1,10 @@
 import 'package:cerbo/app/app.locator.dart';
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/app/app.router.dart';
-import 'package:cerbo/models/categories.dart';
 import 'package:cerbo/models/category.dart';
 import 'package:cerbo/models/news.dart';
 import 'package:cerbo/services/api.dart';
-import 'package:cerbo/services/dummyData.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -19,19 +15,23 @@ class HomeViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
   final _firebaseAuthService = locator<FirebaseAuthenticationService>();
   final _apiService = locator<APIService>();
+  final mainCategories = [
+    Category(name: "Popular"),
+    Category(name: "Recent"),
+  ];
+
+  final recentCategories = [
+    Category(name: "History"),
+    Category(name: "Read Later"),
+  ];
 
   List<Category>? categoriesCache;
 
-  String selectedCategoryTab = "";
-  String selectedRegionalTab = "";
-  String selectedRecentTab = "Read Later";
+  Category? selectedCategoryTab;
+  Category? selectedRegionalTab;
+  Category? selectedRecentTab;
   List<News> recentlyVisitedHistory = [];
   List<News> readLaterHistory = [];
-  final mainCategories = [
-    Category(name: "Popular"),
-    Category(name: "Trending"),
-    Category(name: "Recent")
-  ];
 
   final List<Category> categories = [];
   final List<News> news = [];
@@ -52,8 +52,11 @@ class HomeViewModel extends BaseViewModel {
   initHome() async {
     userName = _firebaseAuthService.currentUser!.displayName!;
     categoriesCache = await getIntialCategories();
-    getCategories();
-    getNews();
+    await getCategories();
+    await getNews();
+    changeSelectedCategoryTab(mainCategories.first);
+    changeSelectedRegionalNewsTab(categories.first);
+    changeSelectedRecentTab(recentCategories.first);
   }
 
   void logout() async {
@@ -67,45 +70,51 @@ class HomeViewModel extends BaseViewModel {
     return _apiService.getCategories();
   }
 
-  void changeSelectedRegionalNewsTab(String category) {
+  void changeSelectedCategoryTab(Category category) {
+    selectedCategoryTab = category;
+    notifyListeners();
+  }
+
+  void changeSelectedRegionalNewsTab(Category category) {
     selectedRegionalTab = category;
     notifyListeners();
   }
 
-  void changeSelectedRecentTab(String category) {
+  void changeSelectedRecentTab(Category category) {
     selectedRecentTab = category;
-    log.d(recentlyVisitedHistory.length);
     notifyListeners();
   }
 
   void addNewsToHistory(News news) {
-    recentlyVisitedHistory.add(news);
+    recentlyVisitedHistory.addIf(
+        !recentlyVisitedHistory.map((e) => e.id == news.id).contains(true),
+        news);
   }
 
   void removeNewsToHistory(News news) {
+    log.e(news.id);
     recentlyVisitedHistory.removeWhere((tempNews) {
-      return news.title == tempNews.title;
+      return news.id == tempNews.id;
     });
     notifyListeners();
   }
 
   void addNewsToReadLater(News news) {
-    readLaterHistory.add(news);
+    readLaterHistory.addIf(
+        !readLaterHistory.map((e) => e.id == news.id).contains(true), news);
   }
 
   void removeNewsToReadLater(News news) {
     readLaterHistory.removeWhere((tempNews) {
-      return news.title == tempNews.title;
+      return news.id == tempNews.id;
     });
     notifyListeners();
   }
 
   Future getCategories() async {
     var categories = await _apiService.getCategories();
-    categories.forEach((element) {
-      log.e(element.toJson());
-    });
     this.categories.addAll(categories);
+
     notifyListeners();
   }
 
@@ -113,9 +122,6 @@ class HomeViewModel extends BaseViewModel {
     var token = await _firebaseAuthService.userToken;
     log.e("Token $token");
     var news = await _apiService.getNews(token);
-    categories.forEach((element) {
-      log.e(element.toJson());
-    });
     this.news.addAll(news);
     notifyListeners();
   }

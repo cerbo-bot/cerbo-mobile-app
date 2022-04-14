@@ -50,7 +50,7 @@ class DummyData {
         ],
         "url":
             "https://www.pngitem.com/pimgs/m/108-1086648_naruto-png-transparent-png.png",
-        "id": 1,
+        "_id": "1",
         "date": "2022-04-09T09:59:50.357Z",
         "link":
             "https://www.pngitem.com/pimgs/m/108-1086648_naruto-png-transparent-png.png"
@@ -74,7 +74,7 @@ class DummyData {
         ],
         "url":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg",
-        "id": 1,
+        "_id": "2",
         "date": "2022-04-09T09:59:50.357Z",
         "link":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg"
@@ -98,7 +98,7 @@ class DummyData {
         ],
         "url":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg",
-        "id": 1,
+        "_id": "3",
         "date": "2022-04-09T09:59:50.357Z",
         "link":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg"
@@ -122,7 +122,7 @@ class DummyData {
         ],
         "url":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg",
-        "id": 1,
+        "_id": "4",
         "date": "2022-04-09T09:59:50.357Z",
         "link":
             "https://i.pinimg.com/originals/f5/6b/f2/f56bf2eed5f4dc8ad21433f2612913a2.jpg"

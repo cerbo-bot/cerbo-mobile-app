@@ -1,6 +1,5 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/models/category.dart';
-import 'package:cerbo/models/news.dart';
 import 'package:flutter/material.dart';
 
 class CerboCategoryCard extends StatelessWidget {
@@ -48,9 +47,7 @@ class CerboCategoryCard extends StatelessWidget {
             flex: 2,
             child: Text(
               category?.name ?? "",
-              style: caption.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: captionBold,
             ),
           )
         ],

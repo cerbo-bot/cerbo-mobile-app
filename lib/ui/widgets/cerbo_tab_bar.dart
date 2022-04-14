@@ -3,42 +3,44 @@ import 'package:cerbo/ui/widgets/cerbo_tab_bar_buttton.dart';
 import 'package:flutter/material.dart';
 
 class CerboTabBar extends StatefulWidget {
-  final void Function(String)? callBack;
+  final void Function(Category)? callBack;
   final List<Category> subcategories;
   final bool isSmallTabBar;
   final bool isLimitedWidget;
-  const CerboTabBar({
-    Key? key,
-    this.callBack,
-    required this.subcategories,
-    this.isSmallTabBar = false,
-    this.isLimitedWidget = false,
-  }) : super(key: key);
+  final Category? initialSelectedCategory;
+  const CerboTabBar(
+      {Key? key,
+      this.callBack,
+      required this.subcategories,
+      this.isSmallTabBar = false,
+      this.isLimitedWidget = false,
+      this.initialSelectedCategory})
+      : super(key: key);
 
   @override
   State<CerboTabBar> createState() => _CerboTabBarState();
 }
 
 class _CerboTabBarState extends State<CerboTabBar> {
-  var currentSelected = "";
+  Category? currentSelected;
   @override
   Widget build(BuildContext context) {
     if (widget.isLimitedWidget) {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: widget.subcategories.map((e) {
           if (e.name == null) {
             return SizedBox();
           }
           return CerboTabBarButton(
-            currentSelected: currentSelected,
+            currentSelected: currentSelected ?? widget.initialSelectedCategory,
             changeSelectedTab: (name) {
               setState(() {
-                currentSelected = name;
+                currentSelected = e;
               });
-              widget.callBack?.call(name);
+              widget.callBack?.call(e);
             },
-            name: e.name!,
+            category: e,
             isSmallTabBar: widget.isSmallTabBar,
           );
         }).toList(),
@@ -51,14 +53,14 @@ class _CerboTabBarState extends State<CerboTabBar> {
           return SizedBox();
         }
         return CerboTabBarButton(
-          currentSelected: currentSelected,
+          currentSelected: currentSelected ?? widget.initialSelectedCategory,
           changeSelectedTab: (name) {
             setState(() {
-              currentSelected = name;
+              currentSelected = widget.subcategories[index];
             });
-            widget.callBack?.call(name);
+            widget.callBack?.call(widget.subcategories[index]);
           },
-          name: widget.subcategories[index].name!,
+          category: widget.subcategories[index],
           isSmallTabBar: widget.isSmallTabBar,
         );
       },

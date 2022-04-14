@@ -1,8 +1,11 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/models/news.dart';
+import 'package:cerbo/ui/widgets/cerbo_category_cards.dart';
+import 'package:cerbo/ui/widgets/cerbo_news_list.dart';
 import 'package:cerbo/ui/widgets/read_later_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../re_usable_functions.dart';
 
@@ -11,6 +14,8 @@ class NewsCard extends StatelessWidget {
   final void Function(News) addToHistory;
   final void Function(News) addToReadLater;
   final void Function(News) removeNewsFromHistory;
+  final void Function(News) removeNewsFromReadLater;
+  final CerboNewsListType cerboNewsListType;
   final bool shouldShowReadLater;
 
   const NewsCard(
@@ -19,128 +24,94 @@ class NewsCard extends StatelessWidget {
       required this.addToHistory,
       required this.addToReadLater,
       required this.removeNewsFromHistory,
-      this.shouldShowReadLater = true})
+      this.shouldShowReadLater = true,
+      required this.removeNewsFromReadLater,
+      required this.cerboNewsListType})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double newsEdgeRadius = 16;
-    double newsCardLeftPadding = 8;
-    double newsCardMargin = 4;
-    double newsCardLeadingPadding = 14;
-    double newsCardHeight = MediaQuery.of(context).size.height / 5.5;
-    double newsCardWidth = MediaQuery.of(context).size.width;
-    double newsCardImageHeight = (newsCardWidth / 6) > (newsCardHeight - 38)
-        ? (newsCardHeight - 38)
-        : (newsCardWidth / 4);
-    double newsCardImageWidth = newsCardImageHeight / 1.5;
-    double newsRemainingWidth = newsCardWidth -
-        (newsCardImageWidth +
-            newsCardLeftPadding +
-            (newsCardMargin * 2) +
-            (newsCardLeadingPadding * 2) +
-            4);
     return GestureDetector(
-      onTap: () {
-        try {
-          if (this.news != null) {
-            addToHistory(this.news!);
-            launchUrl(news?.link ?? "");
+        onTap: () {
+          try {
+            if (this.news != null) {
+              addToHistory(this.news!);
+              launchUrl(news?.link ?? "");
+            }
+          } catch (exception) {
+            showSnakBar(context, "Unable to open this article");
           }
-        } catch (exception) {
-          showSnakBar(context, "Unable to open this article");
-        }
-      },
-      onLongPress: () {
-        share(
-            title: news?.title ?? "",
-            subject: news?.content ?? "",
-            message: news?.link ?? "");
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: newsCardMargin),
-        height: newsCardHeight,
-        width: newsCardWidth,
+        },
+        onLongPress: () {
+          share(
+              title: news?.title ?? "",
+              subject: news?.content ?? "",
+              message: news?.link ?? "");
+        },
         child: Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(newsEdgeRadius),
-          ),
+          elevation: 4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
           child: Padding(
-            padding: EdgeInsets.only(left: newsCardLeftPadding),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(newsEdgeRadius),
-                  child: Image.network(
-                    news?.image ??
-                        "https://images.financialexpress.com/2021/10/Nissan-Magnite.jpg?w=692",
-                    height: newsCardImageHeight,
-                    width: newsCardImageWidth,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset("images/image-alternate.png",
-                          height: newsCardImageHeight,
-                          width: newsCardImageWidth,
-                          fit: BoxFit.cover);
-                    },
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          news?.image ??
+                              "https://www.pngitem.com/pimgs/m/108-1086648_naruto-png-transparent-png.png",
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(newsCardLeadingPadding),
-                  width: newsRemainingWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        news?.title ?? "",
-                        style: body2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        news?.content ?? "",
-                        style: heading7.copyWith(fontWeight: FontWeight.bold),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 14),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.access_time_sharp,
-                              size: 16,
-                              color: TextColorUnSelected,
-                            ),
-                            SizedBox(width: 8),
-                            // Text(
-                            //   "${getTimeInString((news?.readTime) ?? 0)}",
-                            //   style: body2.copyWith(color: TextColorUnSelected),
-                            // ),
-                            SizedBox(width: 12),
-                            ReadLaterWidget(
-                                addToReadLater: addToReadLater,
-                                news: news,
-                                shouldShowReadLater: shouldShowReadLater,
-                                removeNewsFromHistory: removeNewsFromHistory)
-                          ],
+                Flexible(
+                  flex: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            news?.title ?? "",
+                            style: body2Title,
+                          ),
+                          flex: 1,
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          child: Text(
+                            news?.text ?? "",
+                            style: subtitle1,
+                            maxLines: 2,
+                          ),
+                          flex: 2,
+                        ),
+                        Flexible(
+                          child: ReadLaterWidget(
+                              addToReadLater: addToReadLater,
+                              news: news,
+                              shouldShowReadLater: shouldShowReadLater,
+                              removeNewsFromHistory: cerboNewsListType ==
+                                      CerboNewsListType.READ_LATER
+                                  ? removeNewsFromReadLater
+                                  : removeNewsFromHistory),
+                          flex: 1,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

@@ -8,7 +8,9 @@ const Color TextColorDark = Colors.black;
 const Color TextColorUnSelected = Color(0xFFBFBFBF);
 const Color TextColorLight = Colors.white;
 const Color Grey = Colors.grey;
+Color titleColor = Colors.grey.shade700;
 
+// Base styles according to material design
 var heading1 =
     GoogleFonts.roboto(fontSize: 96, color: TextColorDark, letterSpacing: -1.5);
 var heading2 =
@@ -35,3 +37,16 @@ var caption =
     GoogleFonts.roboto(fontSize: 12, color: TextColorDark, letterSpacing: 0.4);
 var overline =
     GoogleFonts.roboto(fontSize: 10, color: TextColorDark, letterSpacing: 1.5);
+
+// Custom font
+var heading5Bold = heading5.copyWith(fontWeight: FontWeight.bold);
+var heading5Light = heading5.copyWith(color: TextColorUnSelected);
+var heading6Bold = heading6.copyWith(fontWeight: FontWeight.bold);
+var heading6Light = heading6.copyWith(color: TextColorUnSelected);
+var subtitle2Bold = subtitle2.copyWith(fontWeight: FontWeight.bold);
+var subtitle2Light = subtitle2.copyWith(color: TextColorUnSelected);
+var body1Light = body1.copyWith(color: TextColorUnSelected);
+var body2Light = body2.copyWith(color: TextColorUnSelected);
+var body2Title = body2.copyWith(color: titleColor);
+var captionBold = caption.copyWith(fontWeight: FontWeight.bold);
+var captionLight = caption.copyWith(color: TextColorUnSelected);
