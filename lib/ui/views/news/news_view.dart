@@ -1,10 +1,8 @@
 import 'package:cerbo/ui/widgets/alternate_homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/ui/widgets/rotated_widget.dart';
-import 'package:share/share.dart';
 import 'package:stacked/stacked.dart';
 
 import 'news_viewmodel.dart';
