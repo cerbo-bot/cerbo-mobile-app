@@ -106,7 +106,8 @@ class NewsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Loading more stories ...",
-                      style: h4.copyWith(color: TextColorDark, fontSize: 12)),
+                      style: heading6.copyWith(
+                          color: TextColorDark, fontSize: 12)),
                 ],
               )
             : null,

@@ -22,14 +22,14 @@ class BotHomeWidget extends StatelessWidget {
         ),
         Text(
           "Hi ${userName.split(' ')[0].capitalize()}\nI'm Cerbo.",
-          style: h2,
+          style: heading4,
           textAlign: TextAlign.center,
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
             "Let's learn something new...",
-            style: h4,
+            style: heading6,
             textAlign: TextAlign.center,
           ),
         ),
@@ -39,7 +39,7 @@ class BotHomeWidget extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Text(
                 "What's new",
-                style: h4.copyWith(color: PrimaryColor),
+                style: heading6.copyWith(color: PrimaryColor),
               ),
             ),
             style: ButtonStyle(

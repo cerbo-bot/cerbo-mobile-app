@@ -44,3 +44,5 @@ app.*.map.json
 .env
 ios/build/
 pubspec.lock
+
+android/app/google-services.json

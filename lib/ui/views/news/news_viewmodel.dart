@@ -14,6 +14,8 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:cerbo/app/app.locator.dart';
 
+import '../../re_usable_functions.dart';
+
 class NewsViewModel extends BaseViewModel {
   List<NewsItem>? _stories_cache = [];
   List<NewsItem>? _stories = [];
@@ -108,7 +110,7 @@ class NewsViewModel extends BaseViewModel {
 
   openStory(String url) async {
     try {
-      await locator<CommonServices>().launchUrl(url);
+      await launchUrl(url);
     } catch (e) {}
   }
 
@@ -121,6 +123,6 @@ class NewsViewModel extends BaseViewModel {
   }
 
   share(String message, {String subject = ""}) {
-    locator<CommonServices>().share(message: message, subject: subject);
+    share(message, subject: subject);
   }
 }

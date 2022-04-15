@@ -27,7 +27,7 @@ class LoginUI extends StatelessWidget {
               children: [
                 Text(
                   "cerbo v1.0",
-                  style: body.copyWith(
+                  style: subtitle1.copyWith(
                       color: TextColorDark, fontWeight: FontWeight.bold),
                 ),
                 Padding(
@@ -42,7 +42,7 @@ class LoginUI extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     "Hey there.",
-                    style: h4.copyWith(color: TextColorDark),
+                    style: subtitle1.copyWith(color: TextColorDark),
                   ),
                 ),
                 Text(
@@ -70,7 +70,7 @@ class LoginUI extends StatelessWidget {
                             style: NeumorphicStyle(color: SecondaryColor),
                             child: Text(
                               "Login with Google",
-                              style: h4.copyWith(color: TextColorDark),
+                              style: heading6.copyWith(color: TextColorDark),
                             ),
                           ),
                   ),
