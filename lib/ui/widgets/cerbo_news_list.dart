@@ -1,12 +1,12 @@
 import 'package:cerbo/models/news.dart';
-import 'package:cerbo/ui/views/home/home_viewmodel.dart';
+import 'package:cerbo/ui/views/dashboard/dashboard_viewmodel.dart';
 import 'package:cerbo/ui/widgets/news_card.dart';
 import 'package:flutter/widgets.dart';
 
 enum CerboNewsListType { HISTORY, NORMAL, READ_LATER }
 
 class CerboNewsList extends StatelessWidget {
-  final HomeViewModel model;
+  final DashboardViewModel model;
   final List<News> news;
   final cerboNewsListType;
   const CerboNewsList(

@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 
+import 'package:cerbo/app/app.logger.dart';
+import 'package:cerbo/constants/url_helper.dart';
 import 'package:cerbo/models/news_item.dart';
 // import 'package:cerbo/models/news.dart';
 import 'package:cerbo/models/category.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:http/http.dart' as http;
 
 class APIService {
-  // final log = getLogger('APIService');
+  final log = getLogger('APIService');
 
   // Future<List<News>> getNews(token) async {
   //   // log.e(token);

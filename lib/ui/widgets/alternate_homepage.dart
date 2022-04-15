@@ -1,13 +1,15 @@
 import 'package:cerbo/app/app.locator.dart';
+import 'package:cerbo/app/app.router.dart';
 import 'package:cerbo/services/common.dart';
 import 'package:cerbo/ui/widgets/highlighter.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:cerbo/constants/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:http/http.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 final RegExp numberRegex = RegExp(r"(-?\d*\.{0,1}\d+)");
+final _nagivationService = locator<NavigationService>();
 
 List<Widget> getCategories(List<String> categories) {
   List<Widget> categoryWidgets = [];
@@ -24,39 +26,6 @@ List<Widget> getCategories(List<String> categories) {
       .toList();
   return categoryWidgets;
 }
-
-// class Dashboard extends StatelessWidget {
-//   // get title, description and image in constructor
-
-//   Dashboard(
-//       {required this.title, required this.description, required this.image});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Color(0xFF101010).withOpacity(0.8),
-//       appBar: AppBar(
-//         backgroundColor: Color(0xFF101010).withOpacity(0.8),
-//         elevation: 0,
-//         actions: [
-//           IconButton(
-//               icon: Icon(
-//                 FeatherIcons.search,
-//               ),
-//               iconSize: 32,
-//               onPressed: () {}),
-//           IconButton(
-//               icon: Icon(
-//                 FeatherIcons.moreVertical,
-//               ),
-//               iconSize: 32,
-//               onPressed: () {})
-//         ],
-//       ),
-//       body: NewsItemWidget(),
-//     );
-//   }
-// }
 
 class NewsItemWidget extends StatelessWidget {
   final String title, description, image, url;
@@ -101,7 +70,13 @@ class NewsItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
-        openStory(url);
+        // open story when user starts dragging left
+        // and open call navigateToDashboard when user starts dragging right
+        if (details.globalPosition.dx < MediaQuery.of(context).size.width / 2) {
+          openStory(url);
+        } else {
+          navigateToDashboard();
+        }
       },
       child: Stack(
         children: [
@@ -180,5 +155,9 @@ class NewsItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void navigateToDashboard() {
+    _nagivationService.navigateTo(Routes.dashboardView);
   }
 }

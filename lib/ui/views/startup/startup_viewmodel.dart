@@ -12,7 +12,7 @@ class StartUpViewModel extends BaseViewModel {
 
   void doSomething() async {
     _firebaseAuthService.hasUser
-        ? _nagivationService.clearStackAndShow(Routes.homeView)
+        ? _nagivationService.clearStackAndShow(Routes.newsView)
         : _nagivationService.clearStackAndShow(Routes.loginView);
   }
 }

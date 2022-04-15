@@ -1,7 +1,7 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/models/categories.dart';
 import 'package:cerbo/models/news.dart';
-import 'package:cerbo/ui/views/home/recent/recent_view.dart';
+import 'package:cerbo/ui/views/recent/recent_view.dart';
 import 'package:cerbo/ui/widgets/cerbo_carousal_list.dart';
 import 'package:cerbo/ui/widgets/cerbo_category_cards.dart';
 import 'package:cerbo/ui/widgets/cerbo_news_list.dart';
@@ -13,9 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:stacked/stacked.dart';
 
-import 'home_viewmodel.dart';
+import 'dashboard_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
+class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
     double regionalNewsViewHeight =
         height - (carousalHeight + 150 + regionalTabViewHeight);
 
-    return ViewModelBuilder<HomeViewModel>.reactive(
+    return ViewModelBuilder<DashboardViewModel>.reactive(
       onModelReady: (model) => model.initHome(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
@@ -125,7 +125,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => DashboardViewModel(),
     );
   }
 }

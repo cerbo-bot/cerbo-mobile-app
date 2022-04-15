@@ -4,14 +4,13 @@ import 'package:cerbo/app/app.router.dart';
 import 'package:cerbo/models/category.dart';
 import 'package:cerbo/models/news.dart';
 import 'package:cerbo/services/api.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../re_usable_functions.dart';
 
-class HomeViewModel extends BaseViewModel {
+class DashboardViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
   final _firebaseAuthService = locator<FirebaseAuthenticationService>();
   final _apiService = locator<APIService>();
@@ -121,7 +120,7 @@ class HomeViewModel extends BaseViewModel {
   Future getNews() async {
     var token = await _firebaseAuthService.userToken;
     var news = await _apiService.getNews(token);
-    this.news.addAll(news);
+    // this.news.addAll(news);
     notifyListeners();
   }
 }

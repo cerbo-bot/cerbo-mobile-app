@@ -17,10 +17,10 @@ class NewsView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          // title: Text(
-          //   "Top Stories",
-          //   style: h3.copyWith(color: TextColorDark),
-          // ),
+          title: Text(
+            "Top Stories",
+            style: h3.copyWith(color: TextColorDark),
+          ),
           // leading: BackButton(
           //   color: TextColorLight,
           // ),
@@ -67,38 +67,7 @@ class NewsView extends StatelessWidget {
                             subject: model.stories![index].title!);
                       },
                     );
-                    // return ListTile(
-                    //   onTap: () =>
-                    //       model.openStory(model.stories![index].url!),
-                    //   onLongPress: () => {
-                    //     model.share(model.stories![index].url.toString(),
-                    //         subject: model.stories![index].title!)
-                    //   },
-                    //   title: Padding(
-                    //     padding: const EdgeInsets.only(top: 8.0),
-                    //     child: Text(model.stories![index].title!,
-                    //         style: h4.copyWith(color: TextColorDark)),
-                    //   ),
-                    //   subtitle:,
-                    //   // subtitle: LinkPreview(
-                    //   //   enableAnimation: true,
-                    //   //   onPreviewDataFetched: (data) {
-                    //   //     model.savePreviewData(data, index);
-                    //   //   },
-                    //   //   previewData: model.previewData[model.stories![index]
-                    //   //       .url], // Pass the preview data from the state
-                    //   //   text: model.stories![index].url!,
-                    //   //   textStyle: TextStyle(fontSize: 0, height: 0),
-                    //   //   metadataTitleStyle: TextStyle(fontSize: 0, height: 0),
-                    //   //   padding: const EdgeInsets.all(2),
-                    //   //   width: MediaQuery.of(context).size.width,
-                    //   // ),
-                    // );
                   },
-                  // separatorBuilder: (BuildContext context, int index) =>
-                  //     Divider(
-                  //   color: TextColorDark,
-                  // ),
                 ),
               ),
         bottomNavigationBar: model.showBottomBarText

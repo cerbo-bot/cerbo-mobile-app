@@ -1,14 +1,11 @@
-import 'package:cerbo/models/category.dart';
-import 'package:cerbo/models/news.dart';
-import 'package:cerbo/ui/views/home/home_viewmodel.dart';
+import 'package:cerbo/ui/views/dashboard/dashboard_viewmodel.dart';
 import 'package:cerbo/ui/widgets/cerbo_news_list.dart';
 import 'package:cerbo/ui/widgets/cerbo_tab_bar.dart';
-import 'package:cerbo/ui/widgets/news_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecentView extends StatelessWidget {
-  final HomeViewModel model;
+  final DashboardViewModel model;
 
   RecentView({Key? key, required this.model}) : super(key: key);
 

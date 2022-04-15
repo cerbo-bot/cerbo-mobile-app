@@ -16,7 +16,7 @@ class LoginViewModel extends BaseViewModel {
   get hideUI => _hideAuthUI;
   User? _currentUser;
   void navigateToHome() {
-    _nagivationService.navigateTo(Routes.homeView);
+    _nagivationService.navigateTo(Routes.dashboardView);
   }
 
   Future<void> login() async {
