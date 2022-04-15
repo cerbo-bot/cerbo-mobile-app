@@ -120,7 +120,6 @@ class HomeViewModel extends BaseViewModel {
 
   Future getNews() async {
     var token = await _firebaseAuthService.userToken;
-    log.e("Token $token");
     var news = await _apiService.getNews(token);
     this.news.addAll(news);
     notifyListeners();

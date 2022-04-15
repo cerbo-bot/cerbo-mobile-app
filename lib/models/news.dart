@@ -1,16 +1,16 @@
 import 'package:cerbo/models/author.dart';
 
 class News {
-  Author? author;
-  String? title;
-  String? text;
-  String? image;
-  String? content;
-  List<String?>? categories;
-  String? url;
+  String? author;
   String? id;
+  String? url;
+  List<String?>? categories;
+  String? content;
   String? date;
-  String? link;
+  String? image;
+  String? src;
+  String? text;
+  String? title;
 
   News(
       {this.title,
@@ -28,11 +28,11 @@ class News {
     image = json['image'];
     author = json['author'];
     content = json['content'];
-    categories = json['categories'];
+    categories = List<String?>.from(json['categories']);
     id = json['_id'];
     url = json["url"];
     date = json['date'];
-    link = json["link"];
+    src = json["src"];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,7 +46,7 @@ class News {
     data["url"] = this.url;
     data['created_at'] = this.id;
     data['date'] = this.date;
-    data["link"] = this.link;
+    data["src"] = this.src;
     return data;
   }
 }

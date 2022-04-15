@@ -1,11 +1,9 @@
 import 'package:cerbo/constants/styles.dart';
 import 'package:cerbo/models/news.dart';
-import 'package:cerbo/ui/widgets/cerbo_category_cards.dart';
 import 'package:cerbo/ui/widgets/cerbo_news_list.dart';
 import 'package:cerbo/ui/widgets/read_later_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../re_usable_functions.dart';
 
@@ -36,7 +34,7 @@ class NewsCard extends StatelessWidget {
           try {
             if (this.news != null) {
               addToHistory(this.news!);
-              launchUrl(news?.link ?? "");
+              launchUrl(news?.src ?? "");
             }
           } catch (exception) {
             showSnakBar(context, "Unable to open this article");
@@ -46,7 +44,7 @@ class NewsCard extends StatelessWidget {
           share(
               title: news?.title ?? "",
               subject: news?.content ?? "",
-              message: news?.link ?? "");
+              message: news?.src ?? "");
         },
         child: Card(
           elevation: 4,
