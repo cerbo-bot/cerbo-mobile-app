@@ -1,26 +1,21 @@
-import 'dart:convert';
-
-import 'package:cerbo/models/news_item.dart';
-import 'package:flutter_chat_types/src/preview_data.dart' show PreviewData;
+import 'package:cerbo/models/news.dart';
+import 'package:flutter_chat_types/src/preview_data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cerbo/app/app.locator.dart';
 import 'package:cerbo/app/app.logger.dart';
 import 'package:cerbo/constants/styles.dart';
-import 'package:cerbo/models/story.dart';
 import 'package:cerbo/services/api.dart';
-import 'package:cerbo/services/common.dart';
 import 'package:cerbo/ui/widgets/rotated_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
-import 'package:cerbo/app/app.locator.dart';
 
 import '../../re_usable_functions.dart';
 
 class NewsViewModel extends BaseViewModel {
-  List<NewsItem>? _stories_cache = [];
-  List<NewsItem>? _stories = [];
-  List<NewsItem>? _storyUrls = [];
-  List<NewsItem>? get stories => _stories;
+  List<News>? _stories_cache = [];
+  List<News>? _stories = [];
+  List<News>? _storyUrls = [];
+  List<News>? get stories => _stories;
   int delayTimeToFetchNewStories = 900;
   int pageSize = 10;
   int pageNo = 1;
@@ -65,7 +60,7 @@ class NewsViewModel extends BaseViewModel {
     try {
       var token = await _firebaseAuthService.userToken;
       var temp = await locator<APIService>().getNews(token);
-      _storyUrls = temp.data;
+      _storyUrls = temp;
 
       if (_storyUrls == null) {
         log.d('Something happened with the data');

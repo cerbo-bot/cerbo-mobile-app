@@ -11,14 +11,14 @@ import 'package:stacked_services/stacked_services.dart';
 final RegExp numberRegex = RegExp(r"(-?\d*\.{0,1}\d+)");
 final _nagivationService = locator<NavigationService>();
 
-List<Widget> getCategories(List<String> categories) {
+List<Widget> getCategories(List<String?> categories) {
   List<Widget> categoryWidgets = [];
 
   categories
       .map(
         (e) => categoryWidgets.add(
           Chip(
-            label: Text(e, style: TextStyle(color: TextColorDark)),
+            label: Text(e ?? "", style: TextStyle(color: TextColorDark)),
             backgroundColor: TextColorLight2,
           ),
         ),
@@ -30,7 +30,7 @@ List<Widget> getCategories(List<String> categories) {
 class NewsItemWidget extends StatelessWidget {
   final String title, description, image, url;
   final Function action;
-  final List<String> categories;
+  final List<String?> categories;
   const NewsItemWidget(
       {required this.title,
       required this.description,
@@ -102,7 +102,7 @@ class NewsItemWidget extends StatelessWidget {
               children: [
                 Center(
                   child: Icon(
-                    getIcon(categories[0]),
+                    getIcon(categories[0] ?? "general"),
                     color: TextColorLight,
                     size: 72,
                   ),

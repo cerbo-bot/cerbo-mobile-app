@@ -120,7 +120,9 @@ class DashboardViewModel extends BaseViewModel {
   Future getNews() async {
     var token = await _firebaseAuthService.userToken;
     var news = await _apiService.getNews(token);
-    // this.news.addAll(news);
+    if (news != null) {
+      this.news.addAll(news);
+    }
     notifyListeners();
   }
 }
