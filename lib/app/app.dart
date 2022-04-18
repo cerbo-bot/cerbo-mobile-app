@@ -1,6 +1,6 @@
 import 'package:cerbo/services/api.dart';
 import 'package:cerbo/services/common.dart';
-import 'package:cerbo/ui/views/home/home_view.dart';
+import 'package:cerbo/ui/views/dashboard/dashboard_view.dart';
 import 'package:cerbo/ui/views/login/login_view.dart';
 import 'package:cerbo/ui/views/news/news_view.dart';
 import 'package:cerbo/ui/views/startup/startup_view.dart';
@@ -10,7 +10,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 @StackedApp(routes: [
   MaterialRoute(page: StartUpView, initial: true),
-  CupertinoRoute(page: HomeView),
+  CupertinoRoute(page: DashboardView),
   CupertinoRoute(page: LoginView),
   CupertinoRoute(page: NewsView),
 ], dependencies: [
